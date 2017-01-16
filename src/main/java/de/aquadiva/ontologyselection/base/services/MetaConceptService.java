@@ -26,7 +26,7 @@ import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multiset;
 
-import de.aquadiva.ontologyselection.OSSymbolConstants;
+import de.aquadiva.ontologyselection.JoyceSymbolConstants;
 import de.aquadiva.ontologyselection.base.data.Ontology;
 
 /**
@@ -55,8 +55,8 @@ public class MetaConceptService implements IMetaConceptService {
 	private File mixedClassOntologyMappingFile;
 
 	public MetaConceptService(Logger log,
-			@Symbol(OSSymbolConstants.META_CLASS_TO_IRI_CLASS_MAPPING) File metaConceptMappingFile,
-			@Symbol(OSSymbolConstants.MIXEDCLASS_ONTOLOGY_MAPPING) File mixedClassOntologyMappingFile)
+			@Symbol(JoyceSymbolConstants.META_CLASS_TO_IRI_CLASS_MAPPING) File metaConceptMappingFile,
+			@Symbol(JoyceSymbolConstants.MIXEDCLASS_ONTOLOGY_MAPPING) File mixedClassOntologyMappingFile)
 					throws IOException {
 		this.log = log;
 		this.mixedClassOntologyMappingFile = mixedClassOntologyMappingFile;

@@ -9,6 +9,9 @@ import de.aquadiva.ontologyselection.base.services.JoyceBaseModule;
 /**
  * A helper class to download the ontologies from BioPortal our tests work with.
  * 
+ * Note that you have to deliver your BioPortal API key by setting the Java
+ * system property 'joyce.bioportal.apikey' to the corresponding value.
+ * 
  * @author faessler
  * 
  */
@@ -18,7 +21,6 @@ public class DownloadTestOntologies {
 		Registry registry = RegistryBuilder.buildAndStartupRegistry(JoyceBaseModule.class);
 		IOntologyDownloadService downloadService = registry.getService(IOntologyDownloadService.class);
 		downloadService.downloadBioPortalOntologiesToConfigDirs("GRO", "BCO", "ENVO", "OBI");
-//		downloadService.downloadBioPortalOntologiesToConfigDirs("GRO");
 	}
 
 }

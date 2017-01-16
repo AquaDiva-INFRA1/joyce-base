@@ -2,7 +2,7 @@ package de.aquadiva.ontologyselection.base.services;
 
 import java.io.File;
 
-import de.aquadiva.ontologyselection.OSSymbolConstants;
+import de.aquadiva.ontologyselection.JoyceSymbolConstants;
 
 public interface IOntologyFormatConversionService {
 	/**
@@ -15,7 +15,7 @@ public interface IOntologyFormatConversionService {
 
 	/**
 	 * Calls {@link #convertToOwl(File, File)} by using the values of the configuration symbols
-	 * {@link OSSymbolConstants#ONTOLOGY_DOWNLOAD_DIR} and {@link OSSymbolConstants#OWL_DIR} as places to look for
+	 * {@link JoyceSymbolConstants#ONTOLOGY_DOWNLOAD_DIR} and {@link JoyceSymbolConstants#OWL_DIR} as places to look for
 	 * ontologies to convert and the place to store the results.
 	 */
 	void convertFromDownloadDirToOwlDir();

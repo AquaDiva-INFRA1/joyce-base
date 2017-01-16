@@ -13,7 +13,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.aquadiva.ontologyselection.OSSymbolConstants;
+import de.aquadiva.ontologyselection.JoyceSymbolConstants;
 import de.aquadiva.ontologyselection.base.services.IOntologyFormatConversionService;
 import de.aquadiva.ontologyselection.base.services.JoyceBaseModule;
 
@@ -37,7 +37,7 @@ public class OntologyFormatConversionServiceTest {
 
 		SymbolSource symbolSource = registry.getService(SymbolSource.class);
 		String owlDirPath = symbolSource
-				.valueForSymbol(OSSymbolConstants.OWL_DIR);
+				.valueForSymbol(JoyceSymbolConstants.OWL_DIR);
 
 		File owlDir = new File(owlDirPath);
 

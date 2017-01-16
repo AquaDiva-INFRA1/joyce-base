@@ -9,7 +9,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.slf4j.Logger;
 
-import de.aquadiva.ontologyselection.OSSymbolConstants;
+import de.aquadiva.ontologyselection.JoyceSymbolConstants;
 
 public class OntologyFormatConversionService implements IOntologyFormatConversionService {
 
@@ -19,8 +19,8 @@ public class OntologyFormatConversionService implements IOntologyFormatConversio
 	private IOWLParsingService parsingService;
 
 	public OntologyFormatConversionService(Logger log, IOWLParsingService parsingService,
-			@Symbol(OSSymbolConstants.ONTOLOGY_DOWNLOAD_DIR) String downloadDir,
-			@Symbol(OSSymbolConstants.OWL_DIR) String owlDir) {
+			@Symbol(JoyceSymbolConstants.ONTOLOGY_DOWNLOAD_DIR) String downloadDir,
+			@Symbol(JoyceSymbolConstants.OWL_DIR) String owlDir) {
 		this.log = log;
 		this.parsingService = parsingService;
 		this.owlDir = new File(owlDir);

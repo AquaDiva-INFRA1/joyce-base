@@ -2,41 +2,41 @@ package de.aquadiva.ontologyselection;
 
 import javax.persistence.EntityManager;
 
-public class OSSymbolConstants {
+public class JoyceSymbolConstants {
 	/**
 	 * The base directory to where the BioPortal ontologies are downloaded.
 	 */
-	public final static String ONTOLOGY_DOWNLOAD_DIR = "os.ontologies.downloaddir";
+	public final static String ONTOLOGY_DOWNLOAD_DIR = "joyce.ontologies.downloaddir";
 	/**
 	 * The directory to where all ontologies available in OWL (either because
 	 * OWL was the original format or the original format could be converted to
 	 * OWL) are stored.
 	 */
-	public final static String OWL_DIR = "os.ontologies.owl.dir";
+	public final static String OWL_DIR = "joyce.ontologies.owl.dir";
 	/**
 	 * This symbol may be set to a comma separated list of BioPortal ontology
 	 * acronyms which will then be downloaded during system setup. If the field
 	 * is left blank, all available BioPortal ontologies will be downloaded.
 	 */
-	public final static String ONTOLOGIES_FOR_DOWNLOAD = "os.ontologies.download.acronyms";
+	public final static String ONTOLOGIES_FOR_DOWNLOAD = "joyce.ontologies.download.acronyms";
 	/**
 	 * The location of a file errors are written occurring during ontology
 	 * download.
 	 */
-	public static final String ONTOLOGY_DOWNLOAD_ERROR_FILE = "os.ontologies.download.errors.file";
+	public static final String ONTOLOGY_DOWNLOAD_ERROR_FILE = "joyce.ontologies.download.errors.file";
 	/**
 	 * The BioPortal API key. Required for the download of BioPortal ontologies.
 	 * Can be obtained on the BioPortal homepage.
 	 * 
 	 * @see http://bioportal.bioontology.org/
 	 */
-	public static final String BIOPORTAL_API_KEY = "os.bioportal.apikey";
+	public static final String BIOPORTAL_API_KEY = "joyce.bioportal.apikey";
 
 	/**
 	 * The name of the JPA persistence context as given in
 	 * META-INF/persistence.xml.
 	 */
-	public static final String PERSISTENCE_CONTEXT = "os.jpa.persistence.context";
+	public static final String PERSISTENCE_CONTEXT = "joyce.jpa.persistence.context";
 
 	/**
 	 * Whether or not the tool setup algorithm - populating the database,
@@ -44,30 +44,30 @@ public class OSSymbolConstants {
 	 * ontologies. This step is not required if the download happened already
 	 * and only database population should be done again.
 	 */
-	public static final String SETUP_DOWNLOAD_BIOPORTAL = "os.setup.download.bioportal";
+	public static final String SETUP_DOWNLOAD_BIOPORTAL = "joyce.setup.download.bioportal";
 	/**
 	 * Whether or not to convert non-OWL ontologies to the OWL format during
 	 * setup, after the ontologies have been downloaded.
 	 */
-	public static final String SETUP_CONVERT_TO_OWL = "os.setup.convert";
+	public static final String SETUP_CONVERT_TO_OWL = "joyce.setup.convert";
 	/**
 	 * The path to the dictionary containing all ontology module terms and maps
 	 * them to their original ontology as well as to their ontology modules.
 	 * This is the same file that has to be used for the ConceptTaggingService's
 	 * gazetteer configuration.
 	 */
-	public static final String CONCEPT_TERM_DICTIONARY = "os.ontologies.concepts.dict";
+	public static final String CONCEPT_TERM_DICTIONARY = "joyce.ontologies.concepts.dict";
 	/**
 	 * The path to a file that will be created by the SetupService in case
 	 * something goes wrong. The file will then contain information about the
 	 * occurred errors.
 	 */
-	public static final String SETUP_ERROR_FILE = "os.setup.errors.file";
+	public static final String SETUP_ERROR_FILE = "joyce.setup.errors.file";
 	/**
 	 * The path to the file mapping meta concepts to the actual ontology concept
 	 * IRIs aggregated by the respective meta concept.
 	 */
-	public static final String META_CLASS_TO_IRI_CLASS_MAPPING = "os.ontologies.concepts.metamapping";
+	public static final String META_CLASS_TO_IRI_CLASS_MAPPING = "joyce.ontologies.concepts.metamapping";
 
 	/**
 	 * The path to the file that maps class IRIs and meta class IDs to the IDs
@@ -75,7 +75,7 @@ public class OSSymbolConstants {
 	 * setup after ontology modularization and then stored to the location given
 	 * by this symbol. Note that the file will be stored in GZIP format.
 	 */
-	public static final String MIXEDCLASS_ONTOLOGY_MAPPING = "os.ontologies.modules.concepts.mixedclassontologymapping";
+	public static final String MIXEDCLASS_ONTOLOGY_MAPPING = "joyce.ontologies.modules.concepts.mixedclassontologymapping";
 	/**
 	 * The path to the full dictionary that maps all synonyms of all classes of
 	 * all ontologies in BioPortal to their IRIs. This dictionary is not meant
@@ -87,7 +87,7 @@ public class OSSymbolConstants {
 	 * during the setup process. The filtered version is stored at
 	 * {@link #DICT_FILTERED_PATH}.
 	 */
-	public static final String DICT_FULL_PATH = "os.ontologies.dictionary.full.path";
+	public static final String DICT_FULL_PATH = "joyce.ontologies.dictionary.full.path";
 	/**
 	 * The path to the dictionary that has been filtered for classes actually
 	 * occurring in the tool's ontology repository. See {@link #DICT_FULL_PATH}
@@ -95,7 +95,7 @@ public class OSSymbolConstants {
 	 * configuration file for ad-concept-tagging, probably something like
 	 * 'bioportal.gazetter.properties'.
 	 */
-	public static final String DICT_FILTERED_PATH = "os.ontologies.dictionary.filtered.path";
+	public static final String DICT_FILTERED_PATH = "joyce.ontologies.dictionary.filtered.path";
 	/**
 	 * JPA database connection property. Specifies the database URL.
 	 */
