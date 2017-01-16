@@ -4,7 +4,7 @@ import org.apache.tapestry5.ioc.Registry;
 import org.apache.tapestry5.ioc.RegistryBuilder;
 
 import de.aquadiva.ontologyselection.base.services.IOntologyDownloadService;
-import de.aquadiva.ontologyselection.base.services.OSBaseModule;
+import de.aquadiva.ontologyselection.base.services.JoyceBaseModule;
 
 /**
  * A helper class to download the ontologies from BioPortal our tests work with.
@@ -15,7 +15,7 @@ import de.aquadiva.ontologyselection.base.services.OSBaseModule;
 public class DownloadTestOntologies {
 
 	public static void main(String[] args) {
-		Registry registry = RegistryBuilder.buildAndStartupRegistry(OSBaseModule.class);
+		Registry registry = RegistryBuilder.buildAndStartupRegistry(JoyceBaseModule.class);
 		IOntologyDownloadService downloadService = registry.getService(IOntologyDownloadService.class);
 		downloadService.downloadBioPortalOntologiesToConfigDirs("GRO", "BCO", "ENVO", "OBI");
 //		downloadService.downloadBioPortalOntologiesToConfigDirs("GRO");

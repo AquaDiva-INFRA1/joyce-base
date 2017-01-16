@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import de.aquadiva.ontologyselection.OSSymbolConstants;
 import de.aquadiva.ontologyselection.base.services.IOntologyDBService;
-import de.aquadiva.ontologyselection.base.services.OSBaseModule;
+import de.aquadiva.ontologyselection.base.services.JoyceBaseModule;
 
 /**
  * Here we just assure that the JPA property settings given via the central Tapestry configuration facility used correctly.
@@ -33,7 +33,7 @@ public class OntologyDBServiceImportConfigSymbolsTest {
 		System.setProperty(OSSymbolConstants.HIBERNATE_SHOW_SQL, "true");
 		System.setProperty(OSSymbolConstants.HIBERNATE_HBM2DDL_AUTO, "create");
 		System.setProperty(OSSymbolConstants.HIBERNATE_JDBC_BATCH_SIZE, "50");
-		registry = RegistryBuilder.buildAndStartupRegistry(OSBaseModule.class);
+		registry = RegistryBuilder.buildAndStartupRegistry(JoyceBaseModule.class);
 	}
 
 	@AfterClass

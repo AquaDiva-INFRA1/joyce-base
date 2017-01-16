@@ -8,20 +8,17 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 import org.apache.tapestry5.ioc.Registry;
 import org.apache.tapestry5.ioc.RegistryBuilder;
-import org.apache.tapestry5.ioc.services.SymbolSource;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.aquadiva.ontologyselection.OSSymbolConstants;
 import de.aquadiva.ontologyselection.base.data.Ontology;
 import de.aquadiva.ontologyselection.base.data.OntologyModule;
 import de.aquadiva.ontologyselection.base.data.ScoreType;
-import de.aquadiva.ontologyselection.base.services.OSBaseModule;
+import de.aquadiva.ontologyselection.base.services.JoyceBaseModule;
 
 public class OntologyJPATest {
 
@@ -29,12 +26,8 @@ public class OntologyJPATest {
 
 	@BeforeClass
 	public static void setUp() throws Exception {
-		Registry registry = RegistryBuilder.buildAndStartupRegistry(OSBaseModule.class);
-		SymbolSource symbolSource = registry.getService(SymbolSource.class);
-		String persistenceContext = symbolSource.valueForSymbol(OSSymbolConstants.PERSISTENCE_CONTEXT);
-		// like discussed with regards to SessionFactory, an EntityManagerFactory is set up once for an application
-		// IMPORTANT: notice how the name here matches the name we gave the persistence-unit in persistence.xml!
-		entityManagerFactory = Persistence.createEntityManagerFactory(persistenceContext);
+		Registry registry = RegistryBuilder.buildAndStartupRegistry(JoyceBaseModule.class);
+		entityManagerFactory = registry.getService(EntityManagerFactory.class);
 		
 	}
 

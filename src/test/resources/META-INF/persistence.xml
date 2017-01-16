@@ -28,21 +28,15 @@
 
     <persistence-unit name="de.aquadiva.test.jpa">
         <description>
-            Persistence unit the ontology selection tests.
+            Persistence unit for the ontology selection tests.
         </description>
 
         <class>de.aquadiva.ontologyselection.base.data.Ontology</class>
         <class>de.aquadiva.ontologyselection.base.data.OntologyModule</class>
 
-        <properties>
-            <property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
-            <property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:db1;DB_CLOSE_DELAY=-1;MVCC=TRUE" />
-            <property name="javax.persistence.jdbc.user" value="sa" />
-            <property name="javax.persistence.jdbc.password" value="" />
-
-            <property name="hibernate.show_sql" value="true" />
-            <property name="hibernate.hbm2ddl.auto" value="create" />
-        </properties>
+      <properties>
+		<!-- Set the required JPA properties via the central application configuration file -->
+		</properties>
 
     </persistence-unit>
 

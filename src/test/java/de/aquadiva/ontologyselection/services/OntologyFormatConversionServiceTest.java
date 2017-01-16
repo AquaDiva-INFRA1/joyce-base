@@ -15,14 +15,14 @@ import org.junit.Test;
 
 import de.aquadiva.ontologyselection.OSSymbolConstants;
 import de.aquadiva.ontologyselection.base.services.IOntologyFormatConversionService;
-import de.aquadiva.ontologyselection.base.services.OSBaseModule;
+import de.aquadiva.ontologyselection.base.services.JoyceBaseModule;
 
 public class OntologyFormatConversionServiceTest {
 	private static Registry registry;
 
 	@BeforeClass
 	public static void setup() {
-		registry = RegistryBuilder.buildAndStartupRegistry(OSBaseModule.class);
+		registry = RegistryBuilder.buildAndStartupRegistry(JoyceBaseModule.class);
 	}
 
 	@AfterClass

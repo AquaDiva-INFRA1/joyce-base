@@ -9,14 +9,14 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.aquadiva.ontologyselection.base.services.IOntologyDBService;
-import de.aquadiva.ontologyselection.base.services.OSBaseModule;
+import de.aquadiva.ontologyselection.base.services.JoyceBaseModule;
 
 public class OntologyDBServiceImportTest {
 	private static Registry registry;
 
 	@BeforeClass
 	public static void setup() {
-		registry = RegistryBuilder.buildAndStartupRegistry(OSBaseModule.class);
+		registry = RegistryBuilder.buildAndStartupRegistry(JoyceBaseModule.class);
 	}
 
 	@AfterClass

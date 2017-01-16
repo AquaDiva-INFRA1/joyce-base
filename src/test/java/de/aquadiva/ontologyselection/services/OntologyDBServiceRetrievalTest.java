@@ -19,7 +19,7 @@ import com.google.common.collect.Sets;
 
 import de.aquadiva.ontologyselection.base.data.Ontology;
 import de.aquadiva.ontologyselection.base.services.IOntologyDBService;
-import de.aquadiva.ontologyselection.base.services.OSBaseModule;
+import de.aquadiva.ontologyselection.base.services.JoyceBaseModule;
 
 public class OntologyDBServiceRetrievalTest {
 
@@ -27,7 +27,7 @@ public class OntologyDBServiceRetrievalTest {
 
 	@BeforeClass
 	public static void setup() {
-		registry = RegistryBuilder.buildAndStartupRegistry(OSBaseModule.class);
+		registry = RegistryBuilder.buildAndStartupRegistry(JoyceBaseModule.class);
 
 		// Import the test ontologies in the in-memory database so we can then test retrieval
 		IOntologyDBService importService = registry.getService(IOntologyDBService.class);

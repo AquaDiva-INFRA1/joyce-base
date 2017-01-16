@@ -28,7 +28,7 @@ import org.slf4j.Logger;
 
 import de.aquadiva.ontologyselection.OSSymbolConstants;
 
-public class OSBaseModule {
+public class JoyceBaseModule {
 
 	public static void contributeSymbolSource(Logger logger, final OrderedConfiguration<SymbolProvider> configuration) {
 		try {			
