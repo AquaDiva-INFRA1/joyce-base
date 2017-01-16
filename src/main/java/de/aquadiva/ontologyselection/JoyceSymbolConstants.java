@@ -13,6 +13,7 @@ public class JoyceSymbolConstants {
 	 * OWL) are stored.
 	 */
 	public final static String OWL_DIR = "joyce.ontologies.owl.dir";
+
 	/**
 	 * This symbol may be set to a comma separated list of BioPortal ontology
 	 * acronyms which will then be downloaded during system setup. If the field
@@ -57,6 +58,12 @@ public class JoyceSymbolConstants {
 	 * gazetteer configuration.
 	 */
 	public static final String CONCEPT_TERM_DICTIONARY = "joyce.ontologies.concepts.dict";
+	/**
+	 * We use a dictionary-based tagger for the concepts in the user input. This
+	 * component requires a properties configuration file. This symbol must be
+	 * set to the location of this file.
+	 */
+	public final static String GAZETTEER_CONFIG = "joyce.ontologies.concepts.gazetteer.conffile";
 	/**
 	 * The path to a file that will be created by the SetupService in case
 	 * something goes wrong. The file will then contain information about the
@@ -127,7 +134,7 @@ public class JoyceSymbolConstants {
 	 * 
 	 * @see
 	 * 
-	 * 		<pre>
+	 *      <pre>
 	 * http://docs.jboss.org/hibernate/core/3.3/reference/en/html/session-configuration.html
 	 * "Table 3.7. Miscellaneous Properties"
 	 *      </pre>
@@ -141,5 +148,5 @@ public class JoyceSymbolConstants {
 	 * per SQL command issued would be relatively high.
 	 */
 	public static final String HIBERNATE_JDBC_BATCH_SIZE = "hibernate.jdbc.batch_size";
-	
+
 }
