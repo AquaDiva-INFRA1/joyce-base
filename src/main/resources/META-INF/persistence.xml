@@ -1,0 +1,38 @@
+<!-- ~ Hibernate, Relational Persistence for Idiomatic Java ~ ~ Copyright 
+	(c) 2010, Red Hat Inc. or third-party contributors as ~ indicated by the 
+	@author tags or express copyright attribution ~ statements applied by the 
+	authors. All third-party contributions are ~ distributed under license by 
+	Red Hat Inc. ~ ~ This copyrighted material is made available to anyone wishing 
+	to use, modify, ~ copy, or redistribute it subject to the terms and conditions 
+	of the GNU ~ Lesser General Public License, as published by the Free Software 
+	Foundation. ~ ~ This program is distributed in the hope that it will be useful, 
+	~ but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
+	~ or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
+	License ~ for more details. ~ ~ You should have received a copy of the GNU 
+	Lesser General Public License ~ along with this distribution; if not, write 
+	to: ~ Free Software Foundation, Inc. ~ 51 Franklin Street, Fifth Floor ~ 
+	Boston, MA 02110-1301 USA -->
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+	version="2.0">
+
+	<persistence-unit name="de.aquadiva.ontologyselection.jpa">
+		<description>
+            Persistence unit with basic settings for the ontology selection tool.
+            The actual properties are defined via the central configuration file.
+            The keys in the configuration file are exactly the JPA property names.
+            Note that possibly not all JPA properties are supported by the
+            configuration file. 
+        </description>
+
+		<class>de.aquadiva.ontologyselection.base.data.Ontology</class>
+		<class>de.aquadiva.ontologyselection.base.data.OntologyModule</class>
+
+		<properties>
+		<!-- Set the required JPA properties via the central application configuration file -->
+		</properties>
+
+	</persistence-unit>
+
+</persistence>
