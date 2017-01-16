@@ -15,7 +15,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.slf4j.Logger;
 
-import de.aquadiva.ontologyselection.OSSymbolConstants;
+import de.aquadiva.ontologyselection.JoyceSymbolConstants;
 import de.aquadiva.ontologyselection.base.data.Ontology;
 import de.aquadiva.ontologyselection.base.data.OntologyModule;
 
@@ -32,7 +32,7 @@ public class OntologyRepositoryStatsPrinterService implements IOntologyRepositor
 	private String ontologyDownloadDir;
 
 	public OntologyRepositoryStatsPrinterService(Logger log, IOntologyDBService dbService,
-			@Symbol(OSSymbolConstants.ONTOLOGY_DOWNLOAD_DIR) String ontologyDownloadDir) {
+			@Symbol(JoyceSymbolConstants.ONTOLOGY_DOWNLOAD_DIR) String ontologyDownloadDir) {
 		this.log = log;
 		this.dbService = dbService;
 		this.ontologyDownloadDir = ontologyDownloadDir;

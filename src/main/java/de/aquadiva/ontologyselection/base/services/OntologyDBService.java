@@ -31,7 +31,7 @@ import org.slf4j.Logger;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import de.aquadiva.ontologyselection.OSSymbolConstants;
+import de.aquadiva.ontologyselection.JoyceSymbolConstants;
 import de.aquadiva.ontologyselection.base.data.Ontology;
 import de.aquadiva.ontologyselection.base.data.OntologyModule;
 import de.aquadiva.ontologyselection.base.data.bioportal.OntologyInformation;
@@ -48,8 +48,8 @@ public class OntologyDBService implements IOntologyDBService {
 	private Map<String, Ontology> cache;
 	private EntityManagerFactory entityManagerFactory;
 
-	public OntologyDBService(Logger log, @Symbol(OSSymbolConstants.ONTOLOGY_DOWNLOAD_DIR) String downloadDir,
-			@Symbol(OSSymbolConstants.OWL_DIR) String owlDir, EntityManager entityManager) {
+	public OntologyDBService(Logger log, @Symbol(JoyceSymbolConstants.ONTOLOGY_DOWNLOAD_DIR) String downloadDir,
+			@Symbol(JoyceSymbolConstants.OWL_DIR) String owlDir, EntityManager entityManager) {
 		this.log = log;
 		this.em = entityManager;
 		entityManagerFactory = em.getEntityManagerFactory();

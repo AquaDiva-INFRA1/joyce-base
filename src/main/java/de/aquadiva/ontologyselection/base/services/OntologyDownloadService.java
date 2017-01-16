@@ -25,7 +25,7 @@ import org.slf4j.Logger;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import de.aquadiva.ontologyselection.OSSymbolConstants;
+import de.aquadiva.ontologyselection.JoyceSymbolConstants;
 import de.aquadiva.ontologyselection.base.data.bioportal.OntologyInformation;
 import de.aquadiva.ontologyselection.base.data.bioportal.OntologySubmission;
 
@@ -48,9 +48,9 @@ public class OntologyDownloadService implements IOntologyDownloadService {
 	private Logger log;
 	private File errorFile;
 
-	public OntologyDownloadService(Logger log, @Symbol(OSSymbolConstants.ONTOLOGY_DOWNLOAD_DIR) String downloadDir,
-			@Symbol(OSSymbolConstants.BIOPORTAL_API_KEY) String apiKey,
-			@Symbol(OSSymbolConstants.ONTOLOGY_DOWNLOAD_ERROR_FILE) File errorFile) {
+	public OntologyDownloadService(Logger log, @Symbol(JoyceSymbolConstants.ONTOLOGY_DOWNLOAD_DIR) String downloadDir,
+			@Symbol(JoyceSymbolConstants.BIOPORTAL_API_KEY) String apiKey,
+			@Symbol(JoyceSymbolConstants.ONTOLOGY_DOWNLOAD_ERROR_FILE) File errorFile) {
 		this.log = log;
 		this.apiKey = apiKey;
 		this.errorFile = errorFile;

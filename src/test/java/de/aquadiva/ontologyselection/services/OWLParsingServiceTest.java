@@ -17,7 +17,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import de.aquadiva.ontologyselection.base.data.Ontology;
 import de.aquadiva.ontologyselection.base.services.IOWLParsingService;
 import de.aquadiva.ontologyselection.base.services.IOntologyDBService;
-import de.aquadiva.ontologyselection.base.services.OSBaseModule;
+import de.aquadiva.ontologyselection.base.services.JoyceBaseModule;
 
 public class OWLParsingServiceTest {
 
@@ -28,7 +28,7 @@ public class OWLParsingServiceTest {
 	// getting a new service with a new OntologyManager each time.
 	@Before
 	public void setup() {
-		registry = RegistryBuilder.buildAndStartupRegistry(OSBaseModule.class);
+		registry = RegistryBuilder.buildAndStartupRegistry(JoyceBaseModule.class);
 	}
 
 	@After
