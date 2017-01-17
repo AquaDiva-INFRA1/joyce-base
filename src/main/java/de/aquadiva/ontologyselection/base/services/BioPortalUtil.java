@@ -1,9 +1,13 @@
 package de.aquadiva.ontologyselection.base.services;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import de.aquadiva.ontologyselection.base.util.ErrorFromNCBORecommenderException;
 
 public class BioPortalUtil {
 	/**
@@ -38,30 +42,41 @@ public class BioPortalUtil {
 	 * @param url
 	 * @param apikey
 	 * @return
+	 * @throws ErrorFromNCBORecommenderException 
 	 */
-	public static String getFromUrl(URL url) throws Exception {
+	public static String getFromUrl(URL url) throws ErrorFromNCBORecommenderException {
 		String result;
-		try {
-			// URL url;
-			HttpURLConnection conn;
-			BufferedReader rd;
-			String line;
-			result = "";
-			// url = new URL(latest_submission);
-			conn = (HttpURLConnection) url.openConnection();
-			conn.setRequestMethod("GET");
+			try {
+				boolean error = false;
+				
+				// URL url;
+				HttpURLConnection conn;
+				BufferedReader rd;
+				String line;
+				result = "";
+				// url = new URL(latest_submission);
+				conn = (HttpURLConnection) url.openConnection();
+				conn.setRequestMethod("GET");
 //		conn.setRequestProperty("Authorization", "apikey token=" + apikey);
-			conn.setRequestProperty("Accept", "application/json");
-			rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-			while ((line = rd.readLine()) != null) {
-				result += line;
+				conn.setRequestProperty("Accept", "application/json");
+				try {
+				rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+				} catch (IOException e) {
+					rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+					error = true;
+				}
+				while ((line = rd.readLine()) != null) {
+					result += line;
+				}
+				rd.close();
+				
+				if (error)
+					throw new ErrorFromNCBORecommenderException(result);
+				return result;
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-			rd.close();
-			return result;
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		
 		return null;
 	}
