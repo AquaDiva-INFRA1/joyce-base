@@ -28,6 +28,7 @@ import com.google.gson.GsonBuilder;
 import de.aquadiva.joyce.JoyceSymbolConstants;
 import de.aquadiva.joyce.base.data.bioportal.OntologyInformation;
 import de.aquadiva.joyce.base.data.bioportal.OntologySubmission;
+import de.aquadiva.joyce.base.util.JoyceException;
 
 public class OntologyDownloadService implements IOntologyDownloadService {
 	public static final String REST_URL_BIOPORTAL = "http://data.bioontology.org";
@@ -64,6 +65,7 @@ public class OntologyDownloadService implements IOntologyDownloadService {
 			ontoDir.mkdirs();
 
 		this.gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssX").create();
+		
 	}
 
 	@Override

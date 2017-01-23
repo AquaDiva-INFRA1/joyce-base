@@ -31,8 +31,8 @@
             Persistence unit for the ontology selection tests.
         </description>
 
-        <class>de.aquadiva.ontologyselection.base.data.Ontology</class>
-        <class>de.aquadiva.ontologyselection.base.data.OntologyModule</class>
+        <class>de.aquadiva.joyce.base.data.Ontology</class>
+        <class>de.aquadiva.joyce.base.data.OntologyModule</class>
 
       <properties>
 		<!-- Set the required JPA properties via the central application configuration file -->

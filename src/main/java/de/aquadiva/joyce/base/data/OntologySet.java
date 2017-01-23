@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class OntologySet extends InformationCachingObject implements IOntologySet {
 
-	protected HashSet<IOntology> ontologies;
+	protected HashSet<IOntology> ontologies = new HashSet<>();
 	protected Map<ScoreType, Double> scores;
 	protected Double overallScore;
 	
