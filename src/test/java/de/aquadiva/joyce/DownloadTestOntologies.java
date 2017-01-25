@@ -2,6 +2,7 @@ package de.aquadiva.joyce;
 
 import org.apache.tapestry5.ioc.Registry;
 import org.apache.tapestry5.ioc.RegistryBuilder;
+import org.junit.Test;
 
 import de.aquadiva.joyce.base.services.IOntologyDownloadService;
 import de.aquadiva.joyce.base.services.JoyceBaseModule;
@@ -17,7 +18,8 @@ import de.aquadiva.joyce.base.services.JoyceBaseModule;
  */
 public class DownloadTestOntologies {
 
-	public static void main(String[] args) {
+	@Test
+	public void testDownloadOntologies() {
 		Registry registry = RegistryBuilder.buildAndStartupRegistry(JoyceBaseModule.class);
 		IOntologyDownloadService downloadService = registry.getService(IOntologyDownloadService.class);
 		downloadService.downloadBioPortalOntologiesToConfigDirs("GRO", "BCO", "ENVO", "OBI");

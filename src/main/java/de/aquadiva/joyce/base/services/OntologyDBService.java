@@ -41,7 +41,7 @@ import de.aquadiva.joyce.base.data.bioportal.ProjectInformation;
 public class OntologyDBService implements IOntologyDBService {
 
 	private Logger log;
-	private File owlDir;
+	private File ontologyDir;
 	private File jsonDir;
 	private Gson gson;
 	private EntityManager em;
@@ -53,8 +53,7 @@ public class OntologyDBService implements IOntologyDBService {
 		this.log = log;
 		this.em = entityManager;
 		entityManagerFactory = em.getEntityManagerFactory();
-		this.owlDir = new File(owlDir);
-
+		this.ontologyDir = new File(downloadDir + File.separator + OntologyDownloadService.ONTO_DIR);
 		this.jsonDir = new File(downloadDir + File.separator + OntologyDownloadService.JSON_DIR);
 
 		this.gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssX").create();
@@ -223,7 +222,7 @@ public class OntologyDBService implements IOntologyDBService {
 
 	@Override
 	public List<Ontology> importBioPortalOntologiesFromConfigDirs() {
-		return importBioPortalOntologies(owlDir, jsonDir);
+		return importBioPortalOntologies(ontologyDir, jsonDir);
 	}
 
 	@Override

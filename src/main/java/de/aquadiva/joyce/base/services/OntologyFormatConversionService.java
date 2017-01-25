@@ -5,12 +5,12 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.slf4j.Logger;
 
 import de.aquadiva.joyce.JoyceSymbolConstants;
 
+@Deprecated
 public class OntologyFormatConversionService implements IOntologyFormatConversionService {
 
 	private File owlDir;

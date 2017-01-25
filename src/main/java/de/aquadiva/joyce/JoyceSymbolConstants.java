@@ -12,6 +12,7 @@ public class JoyceSymbolConstants {
 	 * OWL was the original format or the original format could be converted to
 	 * OWL) are stored.
 	 */
+	@Deprecated
 	public final static String OWL_DIR = "joyce.ontologies.owl.dir";
 
 	/**
@@ -50,6 +51,7 @@ public class JoyceSymbolConstants {
 	 * Whether or not to convert non-OWL ontologies to the OWL format during
 	 * setup, after the ontologies have been downloaded.
 	 */
+	@Deprecated
 	public static final String SETUP_CONVERT_TO_OWL = "joyce.setup.convert";
 	/**
 	 * The path to the dictionary containing all ontology module terms and maps
