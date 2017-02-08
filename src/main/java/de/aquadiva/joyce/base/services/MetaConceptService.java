@@ -233,7 +233,7 @@ public class MetaConceptService implements IMetaConceptService {
 		Set<String> iriClasses = new HashSet<>(mixedClasses.size());
 		for (String mixedClass : mixedClasses) {
 			Collection<String> mappedIriClasses = metaClass2IriClassMapping.get(mixedClass);
-			if (null == mappedIriClasses) {
+			if (null == mappedIriClasses || mappedIriClasses.isEmpty()) {
 				iriClasses.add(mixedClass);
 			} else {
 				for (String iriClass : mappedIriClasses) {
