@@ -57,7 +57,7 @@ public class MetaConceptService implements IMetaConceptService {
 	public MetaConceptService(Logger log,
 			@Symbol(JoyceSymbolConstants.META_CLASS_TO_IRI_CLASS_MAPPING) File metaConceptMappingFile,
 			@Symbol(JoyceSymbolConstants.MIXEDCLASS_ONTOLOGY_MAPPING) File mixedClassOntologyMappingFile)
-					throws IOException {
+			throws IOException {
 		this.log = log;
 		this.mixedClassOntologyMappingFile = mixedClassOntologyMappingFile;
 		metaClass2IriClassMapping = readMetaClass2IriClassMapping(metaConceptMappingFile);
@@ -94,7 +94,7 @@ public class MetaConceptService implements IMetaConceptService {
 				e.printStackTrace();
 				return null;
 			}
-		} else if (null == mixedClassToModuleMapping){
+		} else if (null == mixedClassToModuleMapping) {
 			log.error("Mapping file {} could not be found.", mixedClassOntologyMappingFile);
 		}
 		Map<String, List<String>> ret = new HashMap<>();
@@ -164,9 +164,9 @@ public class MetaConceptService implements IMetaConceptService {
 				}
 			}
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 		return mapping;
 	}

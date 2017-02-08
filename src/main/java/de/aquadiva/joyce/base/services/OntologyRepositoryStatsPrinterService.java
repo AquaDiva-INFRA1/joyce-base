@@ -49,13 +49,24 @@ public class OntologyRepositoryStatsPrinterService implements IOntologyRepositor
 			}
 
 		});
+		oboFiles = oboFiles == null ? new File[0] : oboFiles;
+		File[] umlsFiles = ontoDir.listFiles(new FilenameFilter() {
+
+			@Override
+			public boolean accept(File dir, String name) {
+				return name.toLowerCase().endsWith(".umls") || name.toLowerCase().endsWith(".umls.gz");
+			}
+
+		});
+		umlsFiles = umlsFiles == null ? new File[0] : umlsFiles;
 		File[] owlFiles = ontoDir.listFiles(new FilenameFilter() {
 			@Override
 			public boolean accept(File dir, String name) {
 				return name.toLowerCase().endsWith(".owl") || name.toLowerCase().endsWith(".owl.gz");
 			}
 		});
-
+		owlFiles = owlFiles == null ? new File[0] : owlFiles;
+		
 		List<Ontology> fullOntos = dbService.getAllOntologies();
 		List<Ontology> parsingErrorsFullOntos = dbService.getOntologiesWithParsingError();
 		List<Ontology> modularizationErrors = dbService.getAllOntologiesWithModularizationError();
@@ -83,11 +94,13 @@ public class OntologyRepositoryStatsPrinterService implements IOntologyRepositor
 
 		log.debug("Writing ontology repository statistics to {}", file);
 		try (OutputStream os = new FileOutputStream(file)) {
-			FileUtils.write(file, "Total downloaded ontologies\t" + (oboFiles.length + owlFiles.length) + "\n",
+			FileUtils.write(file, "Total downloaded ontologies\t" + (oboFiles.length + owlFiles.length + umlsFiles.length) + "\n",
 					Charset.forName("UTF-8"), false);
 			FileUtils.write(file, "OWL ontologies downloaded\t" + owlFiles.length + "\n", Charset.forName("UTF-8"),
 					true);
 			FileUtils.write(file, "OBO ontologies downloaded\t" + oboFiles.length + "\n", Charset.forName("UTF-8"),
+					true);
+			FileUtils.write(file, "UMLS ontologies downloaded\t" + umlsFiles.length + "\n", Charset.forName("UTF-8"),
 					true);
 
 			FileUtils.write(file, "Total number of ontologies plus cluster based modules in the database\t"

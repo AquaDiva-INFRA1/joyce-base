@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 
 import de.aquadiva.joyce.JoyceSymbolConstants;
 
-@Deprecated
 public class OntologyFormatConversionService implements IOntologyFormatConversionService {
 
 	private File owlDir;
@@ -25,7 +24,7 @@ public class OntologyFormatConversionService implements IOntologyFormatConversio
 		this.parsingService = parsingService;
 		this.owlDir = new File(owlDir);
 
-		this.ontoDir = new File(downloadDir + File.separator + OntologyDownloadService.ONTO_DIR);
+		this.ontoDir = new File(downloadDir);
 	}
 
 	@Override
@@ -35,7 +34,8 @@ public class OntologyFormatConversionService implements IOntologyFormatConversio
 			public boolean accept(File dir, String name) {
 				boolean accept = false;
 				String[] dotSplit = name.split("\\.");
-				// look for the valid file type ending in the later parts of the file name
+				// look for the valid file type ending in the later parts of the
+				// file name
 				for (int i = 1; i < dotSplit.length; i++) {
 					String namePart = dotSplit[i];
 					if (namePart.equalsIgnoreCase("owl"))
@@ -50,7 +50,8 @@ public class OntologyFormatConversionService implements IOntologyFormatConversio
 			public boolean accept(File dir, String name) {
 				boolean accept = false;
 				String[] dotSplit = name.split("\\.");
-				// look for the valid file type ending in the later parts of the file name
+				// look for the valid file type ending in the later parts of the
+				// file name
 				for (int i = 1; i < dotSplit.length; i++) {
 					String namePart = dotSplit[i];
 					if (namePart.equalsIgnoreCase("obo"))
@@ -59,10 +60,27 @@ public class OntologyFormatConversionService implements IOntologyFormatConversio
 				return accept;
 			}
 		});
+
+		File[] umlsFiles = sourceDir.listFiles(new FilenameFilter() {
+			@Override
+			public boolean accept(File dir, String name) {
+				boolean accept = false;
+				String[] dotSplit = name.split("\\.");
+				// look for the valid file type ending in the later parts of the
+				// file name
+				for (int i = 1; i < dotSplit.length; i++) {
+					String namePart = dotSplit[i];
+					if (namePart.equalsIgnoreCase("umls"))
+						accept = true;
+				}
+				return accept;
+			}
+		});
 		String[] allFiles = sourceDir.list();
-		
-		log.info("Found {} ontologies in OBO format. Attempting to convert to OWL.", null == oboFiles ? 0 : oboFiles.length);
-		for (int i = 0; i < oboFiles.length; i++) {
+
+		log.info("Found {} ontologies in OBO format. Attempting to convert to OWL.",
+				null == oboFiles ? 0 : oboFiles.length);
+		for (int i = 0; oboFiles != null && i < oboFiles.length; i++) {
 			File obofile = oboFiles[i];
 			try {
 				String filename = obofile.getName();
@@ -76,20 +94,56 @@ public class OntologyFormatConversionService implements IOntologyFormatConversio
 			}
 		}
 
-		log.info("Copying {} OWL ontologies from {} to {}.", new Object[] {owlFiles == null ? 0 : owlFiles.length, ontoDir, owlDir});
-		int copied = 0;
-		for (int i = 0; null != owlFiles && i < owlFiles.length; i++) {
-			File sourceFile = owlFiles[i];
-			File destFile = new File(owlDir.getAbsolutePath() + File.separator + sourceFile.getName());
+		log.info("Found {} ontologies in UMLS format. Attempting to convert to OWL.",
+				null == umlsFiles ? 0 : umlsFiles.length);
+		for (int i = 0; umlsFiles != null && i < umlsFiles.length; i++) {
+			File umlsfile = umlsFiles[i];
 			try {
-				FileUtils.copyFile(sourceFile, destFile);
-				++copied;
-			} catch (IOException e) {
-				e.printStackTrace();
+				String filename = umlsfile.getName();
+				String acronym = filename.substring(0, filename.indexOf('.'));
+				File destOwlFile = new File(owlDir.getAbsolutePath() + File.separator + acronym + ".owl.gz");
+				log.debug("Converting UMLS file {} to OWL file {}.", umlsfile, destOwlFile);
+				parsingService.convertOntology(umlsfile, destOwlFile);
+			} catch (Exception | Error e) {
+				log.error("UMLS file {} could not be converted to OWL. Error message: {}", umlsfile, e.getMessage());
+				log.debug("Exception was: ", e);
 			}
 		}
-		log.info("{} OWL ontologies sucessfully copied.", copied);
-		log.info("{} ontologies were neither in OWL nor in in OBO format and are currently not supported.", (allFiles.length-(owlFiles.length+oboFiles.length))); 
+
+		log.info(
+				"Found {} ontologies in OWL format. They are converted to the same RDF/XML OWL format as ontologies of other formats.",
+				null == owlFiles ? 0 : owlFiles.length);
+		for (int i = 0; owlFiles != null && i < owlFiles.length; i++) {
+			File owlfile = owlFiles[i];
+			try {
+				String filename = owlfile.getName();
+				String acronym = filename.substring(0, filename.indexOf('.'));
+				File destOwlFile = new File(owlDir.getAbsolutePath() + File.separator + acronym + ".owl.gz");
+				log.debug("Converting OWL file {} to OWL RDF/XML file {}.", owlfile, destOwlFile);
+				parsingService.convertOntology(owlfile, destOwlFile);
+			} catch (Exception | Error e) {
+				log.error("OWL file {} could not be converted to OWL RDF/XML. Error message: {}", owlfile, e.getMessage());
+				log.debug("Exception was: ", e);
+			}
+		}
+
+		// log.info("Copying {} OWL ontologies from {} to {}.", new Object[]
+		// {owlFiles == null ? 0 : owlFiles.length, ontoDir, owlDir});
+		// int copied = 0;
+		// for (int i = 0; null != owlFiles && i < owlFiles.length; i++) {
+		// File sourceFile = owlFiles[i];
+		// File destFile = new File(owlDir.getAbsolutePath() + File.separator +
+		// sourceFile.getName());
+		// try {
+		// FileUtils.copyFile(sourceFile, destFile);
+		// ++copied;
+		// } catch (IOException e) {
+		// e.printStackTrace();
+		// }
+		// }
+		// log.info("{} OWL ontologies sucessfully copied.", copied);
+		log.info("{} ontologies were neither in OWL nor in in OBO format and are currently not supported.",
+				(allFiles.length - (owlFiles.length + oboFiles.length)));
 	}
 
 	@Override

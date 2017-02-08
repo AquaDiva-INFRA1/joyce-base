@@ -13,14 +13,13 @@ import java.util.zip.GZIPOutputStream;
 import org.apache.commons.io.IOUtils;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.io.RDFXMLOntologyFormat;
-import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.io.StreamDocumentSource;
+import org.semanticweb.owlapi.model.MissingImportHandlingStrategy;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyAlreadyExistsException;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.semanticweb.owlapi.model.OWLOntologyID;
+import org.semanticweb.owlapi.model.OWLOntologyLoaderConfiguration;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
-import org.semanticweb.owlapi.model.SetOntologyID;
 import org.slf4j.Logger;
 
 import de.aquadiva.joyce.base.data.IOntology;
@@ -36,27 +35,26 @@ public class OWLParsingService implements IOWLParsingService {
 
 	private OWLOntologyManager owlOntologyManager;
 	private Logger log;
+	private OWLOntologyLoaderConfiguration config;
 
 	public OWLParsingService(Logger log) {
 		this.log = log;
 		owlOntologyManager = OWLManager.createOWLOntologyManager();
+
+		config = new OWLOntologyLoaderConfiguration();
+		config = config.setMissingImportHandlingStrategy(MissingImportHandlingStrategy.SILENT);
 	}
 
 	public OWLOntology parse(File ontologyFile) throws IOException {
 		byte[] ontologyData = IOUtils.toByteArray(new FileInputStream(ontologyFile));
-		try {
-			OWLOntology owlOntology = parse(ontologyData);
-			String filename = ontologyFile.getName();
-			String acronym = filename.substring(0, filename.indexOf('.'));
-			renameTEMPOntology(owlOntology, acronym);
-			return owlOntology;
-		} catch (OWLOntologyAlreadyExistsException e) {
-			e.printStackTrace();
-		}
-		return null;
+		OWLOntology owlOntology = parse(ontologyData);
+		// String filename = ontologyFile.getName();
+		// String acronym = filename.substring(0, filename.indexOf('.'));
+		// renameTEMPOntology(owlOntology, acronym);
+		return owlOntology;
 	}
 
-	public OWLOntology parse(byte[] ontologyData) throws OWLOntologyAlreadyExistsException {
+	public OWLOntology parse(byte[] ontologyData) {
 		try {
 			long time = System.currentTimeMillis();
 			InputStream is = new ByteArrayInputStream(ontologyData);
@@ -65,14 +63,16 @@ public class OWLParsingService implements IOWLParsingService {
 			if (ontologyData[0] == (byte) 0x1f && ontologyData[1] == (byte) 0x8b) {
 				is = new GZIPInputStream(is);
 			}
-			OWLOntology o = owlOntologyManager.loadOntologyFromOntologyDocument(is);
+			StreamDocumentSource documentSource = new StreamDocumentSource(is);
+			OWLOntology o;
+			synchronized (owlOntologyManager) {
+				o = owlOntologyManager.loadOntologyFromOntologyDocument(documentSource, config);
+			}
 			time = System.currentTimeMillis() - time;
 			log.debug("Parsed OWL ontology {} in {}ms ({}s)", new Object[] { o.getOntologyID(), time, time / 1000 });
 			return o;
 		} catch (org.semanticweb.owlapi.model.OWLOntologyAlreadyExistsException e) {
-			log.warn(
-					"The ontology with ID {} was requested for repeated parsing. The already existing ontology is returned. However, we should check if the ontology IDs are really unique. Because, when not, we would return the wrong ontology at some point.");
-			return owlOntologyManager.getOntology(e.getOntologyID());
+			throw new RuntimeException(e);
 		} catch (OWLOntologyCreationException e) {
 			throw new RuntimeException(e);
 		} catch (IOException e) {
@@ -82,15 +82,9 @@ public class OWLParsingService implements IOWLParsingService {
 
 	public OWLOntology parse(IOntology ontology) throws IOException {
 		OWLOntology owlOntology;
-		try {
-			owlOntology = ontology.getFile() != null && ontology.getFile().exists() ? parse(ontology.getFile())
-					: parse(ontology.getOntologyData());
-		} catch (OWLOntologyAlreadyExistsException e) {
-			log.error(
-					"Could parse ontology {} because the ID of the actual OWL ontology already exists on another ontology parsed before.");
-			throw new RuntimeException(e);
-		}
-		renameTEMPOntology(owlOntology, ontology.getId());
+		owlOntology = ontology.getFile() != null && ontology.getFile().exists() ? parse(ontology.getFile())
+				: parse(ontology.getOntologyData());
+		// renameTEMPOntology(owlOntology, ontology.getId());
 		ontology.setOwlOntology(owlOntology);
 		// Remove the ontology again because we get problems with duplicate
 		// names; hopefully this has not unwanted side effects;TODO perhaps we
@@ -115,17 +109,19 @@ public class OWLParsingService implements IOWLParsingService {
 	 * @param owlOntology
 	 * @param newname
 	 */
-	private void renameTEMPOntology(OWLOntology owlOntology, String newname) {
-		// Most OBO ontologies do not set their ontology name; if so, we just
-		// set some IRI that should be unique due to the use of the ontology's
-		// acronym
-		if (owlOntology.getOntologyID().getOntologyIRI() != null && owlOntology.getOntologyID().getOntologyIRI()
-				.equals(IRI.create("http://purl.obolibrary.org/obo/TEMP"))) {
-			SetOntologyID setOntologyID = new SetOntologyID(owlOntology,
-					IRI.create("http://purl.obolibrary.org/obo/" + newname));
-			owlOntologyManager.applyChange(setOntologyID);
-		}
-	}
+	// private void renameTEMPOntology(OWLOntology owlOntology, String newname)
+	// {
+	// // Most OBO ontologies do not set their ontology name; if so, we just
+	// // set some IRI that should be unique due to the use of the ontology's
+	// // acronym
+	// if (owlOntology.getOntologyID().getOntologyIRI() != null &&
+	// owlOntology.getOntologyID().getOntologyIRI()
+	// .equals(IRI.create("http://purl.obolibrary.org/obo/TEMP"))) {
+	// SetOntologyID setOntologyID = new SetOntologyID(owlOntology,
+	// IRI.create("http://purl.obolibrary.org/obo/" + newname));
+	// owlOntologyManager.applyChange(setOntologyID);
+	// }
+	// }
 
 	@Override
 	public void convertOntology(File obofile, File owlfile) throws IOException {
@@ -134,11 +130,13 @@ public class OWLParsingService implements IOWLParsingService {
 		if (!dir.exists())
 			dir.mkdirs();
 		try (OutputStream os = new GZIPOutputStream(new FileOutputStream(owlfile))) {
-			owlOntologyManager.saveOntology(owlOntology, new RDFXMLOntologyFormat(), os);
+			synchronized (owlOntologyManager) {
+				owlOntologyManager.saveOntology(owlOntology, new RDFXMLOntologyFormat(), os);
+			}
 		} catch (OWLOntologyStorageException e) {
 			throw new IOException(e);
 		}
-		owlOntologyManager.removeOntology(owlOntology);
+		clearOntologies();
 	}
 
 	@Override
@@ -147,11 +145,11 @@ public class OWLParsingService implements IOWLParsingService {
 	}
 
 	@Override
-	public void removeIntology(IRI ontologyIri) {
-		OWLOntologyID ontologyID = new OWLOntologyID(ontologyIri);
-		if (owlOntologyManager.getOntology(ontologyID) != null) {
-			log.debug("Removing ontology with IRI {} from OWLOntologyManager.", ontologyIri.toString());
-			owlOntologyManager.removeOntology(ontologyID);
+	public void clearOntologies() {
+		synchronized (owlOntologyManager) {
+			for (OWLOntology o : owlOntologyManager.getOntologies()) {
+				owlOntologyManager.removeOntology(o);
+			}
 		}
 	}
 }

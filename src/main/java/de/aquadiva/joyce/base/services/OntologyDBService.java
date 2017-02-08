@@ -37,24 +37,25 @@ import de.aquadiva.joyce.base.data.OntologyModule;
 import de.aquadiva.joyce.base.data.bioportal.OntologyInformation;
 import de.aquadiva.joyce.base.data.bioportal.OntologySubmission;
 import de.aquadiva.joyce.base.data.bioportal.ProjectInformation;
+import de.julielab.bioportal.ontologies.BioPortalToolConstants;
 
 public class OntologyDBService implements IOntologyDBService {
 
 	private Logger log;
-	private File ontologyDir;
+	private File owlDir;
 	private File jsonDir;
 	private Gson gson;
 	private EntityManager em;
 	private Map<String, Ontology> cache;
 	private EntityManagerFactory entityManagerFactory;
 
-	public OntologyDBService(Logger log, @Symbol(JoyceSymbolConstants.ONTOLOGY_DOWNLOAD_DIR) String downloadDir,
+	public OntologyDBService(Logger log, @Symbol(JoyceSymbolConstants.ONTOLOGY_INFO_DOWNLOAD_DIR) String ontologyInfoDir,
 			@Symbol(JoyceSymbolConstants.OWL_DIR) String owlDir, EntityManager entityManager) {
 		this.log = log;
 		this.em = entityManager;
 		entityManagerFactory = em.getEntityManagerFactory();
-		this.ontologyDir = new File(downloadDir + File.separator + OntologyDownloadService.ONTO_DIR);
-		this.jsonDir = new File(downloadDir + File.separator + OntologyDownloadService.JSON_DIR);
+		this.owlDir = new File(owlDir);
+		this.jsonDir = new File(ontologyInfoDir);
 
 		this.gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssX").create();
 		this.cache = new HashMap<>();
@@ -72,13 +73,13 @@ public class OntologyDBService implements IOntologyDBService {
 		for (int i = 0; i < jsonMetas.length; i++) {
 			File metaFile = jsonMetas[i];
 			String acronym = metaFile.getName().split("\\.", 2)[0];
-			if (metaFile.getName().contains(OntologyDownloadService.SUBMISSIONS)) {
+			if (metaFile.getName().contains(BioPortalToolConstants.SUBMISSIONS_EXT)) {
 				submissionsByAcronym.put(acronym, metaFile);
-			} else if (metaFile.getName().contains(OntologyDownloadService.SUBMISSION)) {
+			} else if (metaFile.getName().contains(BioPortalToolConstants.SUBMISSION_EXT)) {
 				submissionByAcronym.put(acronym, metaFile);
-			} else if (metaFile.getName().contains(OntologyDownloadService.PROJECTS)) {
+			} else if (metaFile.getName().contains(BioPortalToolConstants.PROJECTS_EXT)) {
 				projectsByAcronym.put(acronym, metaFile);
-			} else if (metaFile.getName().contains(OntologyDownloadService.ANALYTICS)) {
+			} else if (metaFile.getName().contains(BioPortalToolConstants.ANALYTICS_EXT)) {
 				analyticsByAcronym.put(acronym, metaFile);
 			} else {
 				ontoInfByAcronym.put(acronym, metaFile);
@@ -217,12 +218,13 @@ public class OntologyDBService implements IOntologyDBService {
 		}
 		log.info("Committing ontology import to the database.");
 		em.getTransaction().commit();
+		log.info("Done.");
 		return createdOntologies;
 	}
 
 	@Override
 	public List<Ontology> importBioPortalOntologiesFromConfigDirs() {
-		return importBioPortalOntologies(ontologyDir, jsonDir);
+		return importBioPortalOntologies(owlDir, jsonDir);
 	}
 
 	@Override

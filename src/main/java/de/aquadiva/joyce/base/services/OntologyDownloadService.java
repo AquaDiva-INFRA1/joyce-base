@@ -1,34 +1,20 @@
 package de.aquadiva.joyce.base.services;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.concurrent.ExecutionException;
-import java.util.zip.GZIPOutputStream;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.ParseException;
 import org.apache.tapestry5.ioc.annotations.Symbol;
-import org.apache.tapestry5.json.JSONArray;
-import org.apache.tapestry5.json.JSONObject;
 import org.slf4j.Logger;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import de.aquadiva.joyce.JoyceSymbolConstants;
-import de.aquadiva.joyce.base.data.bioportal.OntologyInformation;
-import de.aquadiva.joyce.base.data.bioportal.OntologySubmission;
 import de.julielab.bioportal.ontologies.DownloadStats;
 import de.julielab.bioportal.ontologies.OntologyDownloader;
 import de.julielab.bioportal.util.BioPortalOntologyToolsException;
@@ -56,7 +42,7 @@ public class OntologyDownloadService implements IOntologyDownloadService {
 	private File errorFile;
 	private OntologyDownloader ontologyDownloader;
 
-	public OntologyDownloadService(Logger log, @Symbol(JoyceSymbolConstants.ONTOLOGY_DOWNLOAD_DIR) String downloadDir,
+	public OntologyDownloadService(Logger log, @Symbol(JoyceSymbolConstants.ONTOLOGY_DOWNLOAD_DIR) String ontologyDownloadDir, @Symbol(JoyceSymbolConstants.ONTOLOGY_INFO_DOWNLOAD_DIR) String ontologyInfoDir,
 			@Symbol(JoyceSymbolConstants.BIOPORTAL_API_KEY) String apiKey,
 			@Symbol(JoyceSymbolConstants.ONTOLOGY_DOWNLOAD_ERROR_FILE) File errorFile) {
 		
@@ -65,8 +51,8 @@ public class OntologyDownloadService implements IOntologyDownloadService {
 		this.apiKey = apiKey;
 		this.errorFile = errorFile;
 
-		this.jsonDir = new File(downloadDir + File.separator + JSON_DIR);
-		this.ontoDir = new File(downloadDir + File.separator + ONTO_DIR);
+		this.ontoDir = new File(ontologyDownloadDir);
+		this.jsonDir = new File(ontologyInfoDir);
 
 		if (!jsonDir.exists())
 			jsonDir.mkdirs();

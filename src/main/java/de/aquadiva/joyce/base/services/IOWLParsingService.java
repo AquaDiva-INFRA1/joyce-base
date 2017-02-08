@@ -3,7 +3,6 @@ package de.aquadiva.joyce.base.services;
 import java.io.File;
 import java.io.IOException;
 
-import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyAlreadyExistsException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
@@ -31,9 +30,5 @@ public interface IOWLParsingService {
 
 	OWLOntologyManager getOwlOntologyManager();
 
-	/**
-	 * Removes the OWLOntology with IRI <tt>ontologyIRI</tt> from the underlying OWLOntologyManager.
-	 * @param ontologyIri
-	 */
-	void removeIntology(IRI ontologyIri);
+	void clearOntologies();
 }

@@ -36,6 +36,7 @@ public class JoyceBaseModule {
 			ClasspathResourceSymbolProvider resSmbProv = new ClasspathResourceSymbolProvider(configFileName);
 			configuration.add("DevSymbols", resSmbProv,
 					"before:ApplicationDefaults");
+			logger.info("Found configuration file {}", configFileName);
 		} catch (NullPointerException e) {
 			logger.info("No configuration file found in the classpath");
 		}
@@ -81,7 +82,7 @@ public class JoyceBaseModule {
 	}
 
 	public static ExecutorService buildExecutorService(Logger log, RegistryShutdownHub shutdownHub) {
-		OntologySelectionExecutorService executorService = new OntologySelectionExecutorService(log, Executors.newFixedThreadPool(4));
+		OntologySelectionExecutorService executorService = new OntologySelectionExecutorService(log, Executors.newFixedThreadPool(12));
 		executorService.startupService(shutdownHub);
 		return executorService;
 	}

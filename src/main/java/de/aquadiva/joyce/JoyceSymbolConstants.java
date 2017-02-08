@@ -4,15 +4,19 @@ import javax.persistence.EntityManager;
 
 public class JoyceSymbolConstants {
 	/**
-	 * The base directory to where the BioPortal ontologies are downloaded.
+	 * The directory to where the BioPortal ontologies are downloaded.
 	 */
 	public final static String ONTOLOGY_DOWNLOAD_DIR = "joyce.ontologies.downloaddir";
+	/**
+	 * This is the directory where BioPortal ontology meta information is
+	 * downloaded to.
+	 */
+	public final static String ONTOLOGY_INFO_DOWNLOAD_DIR = "joyce.ontologies.info.downloaddir";
 	/**
 	 * The directory to where all ontologies available in OWL (either because
 	 * OWL was the original format or the original format could be converted to
 	 * OWL) are stored.
 	 */
-	@Deprecated
 	public final static String OWL_DIR = "joyce.ontologies.owl.dir";
 
 	/**
@@ -51,8 +55,12 @@ public class JoyceSymbolConstants {
 	 * Whether or not to convert non-OWL ontologies to the OWL format during
 	 * setup, after the ontologies have been downloaded.
 	 */
-	@Deprecated
 	public static final String SETUP_CONVERT_TO_OWL = "joyce.setup.convert";
+	/**
+	 * Whether or not to import OWL ontologies into the database. Can be
+	 * switched off if the database already exists as desired.
+	 */
+	public static final String SETUP_IMPORT_ONTOLOGIES = "joyce.setup.import";
 	/**
 	 * The path to the dictionary containing all ontology module terms and maps
 	 * them to their original ontology as well as to their ontology modules.
@@ -73,8 +81,9 @@ public class JoyceSymbolConstants {
 	 */
 	public static final String SETUP_ERROR_FILE = "joyce.setup.errors.file";
 	/**
-	 * The path to the file mapping meta concepts to the actual ontology concept
-	 * IRIs aggregated by the respective meta concept.
+	 * This is an input file for the SetupService. The path to the file mapping
+	 * meta concepts to the actual ontology concept IRIs aggregated by the
+	 * respective meta concept.
 	 */
 	public static final String META_CLASS_TO_IRI_CLASS_MAPPING = "joyce.ontologies.concepts.metamapping";
 

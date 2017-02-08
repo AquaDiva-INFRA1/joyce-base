@@ -8,17 +8,20 @@ import de.aquadiva.joyce.base.data.Ontology;
 import de.aquadiva.joyce.base.data.OntologyModule;
 
 /**
- * This service is the typical follow-up on the {@link IOntologyFormatConversionService} which should have been run
- * after the {@link OntologyDownloadService}. This service performs a database import referencing the download files and
- * parsing the JSON meta data downloaded with the ontology files and joins them in database tables.
+ * This service is the typical follow-up on the
+ * {@link IOntologyFormatConversionService} which should have been run after the
+ * {@link OntologyDownloadService}. This service performs a database import
+ * referencing the download files and parsing the JSON meta data downloaded with
+ * the ontology files and joins them in database tables.
  * 
  * @author faessler
  * 
  */
 public interface IOntologyDBService {
 	/**
-	 * Reads OWL ontology files from <tt>owlDir</tt> and their BioPortal metadata from <tt>metaDir</tt>. Creates
-	 * {@link Ontology} instances and persists them into the database. Then returns the created ontologies.
+	 * Reads OWL ontology files from <tt>owlDir</tt> and their BioPortal
+	 * metadata from <tt>metaDir</tt>. Creates {@link Ontology} instances and
+	 * persists them into the database. Then returns the created ontologies.
 	 * 
 	 * @param owlDir
 	 * @param metaDir
@@ -27,13 +30,19 @@ public interface IOntologyDBService {
 	List<Ontology> importBioPortalOntologies(File owlDir, File metaDir);
 
 	/**
-	 * Calls {@link #importBioPortalOntologies(File, File)} with the <tt>owlDir</tt> and <tt>metaDir</tt> as specified
-	 * in the configuration file.
+	 * Calls {@link #importBioPortalOntologies(File, File)} with the
+	 * <tt>owlDir</tt> and <tt>metaDir</tt> as specified in the configuration
+	 * file.
 	 * 
 	 * @return
 	 */
 	List<Ontology> importBioPortalOntologiesFromConfigDirs();
 
+	/**
+	 * Returns all full ontologies in the database, no modules.
+	 * 
+	 * @return All ontologies in the database.
+	 */
 	List<Ontology> getAllOntologies();
 
 	List<OntologyModule> getAllOntologyModules();
