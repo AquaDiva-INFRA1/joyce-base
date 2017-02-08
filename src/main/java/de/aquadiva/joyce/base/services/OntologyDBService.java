@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -277,6 +278,7 @@ public class OntologyDBService implements IOntologyDBService {
 		return persistedOntoModules;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Ontology> getOntologiesByIds(String... ids) {
 		// beginTransaction();
@@ -295,21 +297,21 @@ public class OntologyDBService implements IOntologyDBService {
 
 		// in case we want to cache ontologies ourselves that have been loaded
 		// once; most probably completely redundant because JPA does it itself
-		List<Ontology> knownOntos = new ArrayList<>();
+//		List<Ontology> knownOntos = new ArrayList<>();
 		Set<String> idsToFetchSet = new HashSet<>();
 		for (int i = 0; i < ids.length; i++) {
 			idsToFetchSet.add(ids[i]);
 		}
-		for (int i = 0; i < ids.length; i++) {
-			String id = ids[i];
-			Ontology onto = cache.get(id);
-			if (onto != null) {
-				idsToFetchSet.remove(onto.getId());
-				knownOntos.add((Ontology) onto);
-			}
-		}
+//		for (int i = 0; i < ids.length; i++) {
+//			String id = ids[i];
+//			Ontology onto = cache.get(id);
+//			if (onto != null) {
+//				idsToFetchSet.remove(onto.getId());
+//				knownOntos.add((Ontology) onto);
+//			}
+//		}
 		ArrayList<String> idsToFetchList = new ArrayList<>(idsToFetchSet);
-		List<Ontology> list = Collections.emptyList();
+		Set<Ontology> set = new LinkedHashSet<>();
 		if (!idsToFetchList.isEmpty()) {
 			beginTransaction();
 			Session session = em.unwrap(Session.class);
@@ -320,14 +322,16 @@ public class OntologyDBService implements IOntologyDBService {
 				idCriterions[i] = Restrictions.idEq(id);
 			}
 			cr.add(Restrictions.disjunction(idCriterions));
-			list = cr.list();
+			System.out.println("Criterion: " + cr);
+			List<Ontology> list = cr.list();
+			set.addAll(list);
 			commit();
-			for (Ontology o : list)
-				cache.put(o.getId(), o);
+//			for (Ontology o : list)
+//				cache.put(o.getId(), o);
 		}
 		List<Ontology> ret = new ArrayList<>();
-		ret.addAll(list);
-		ret.addAll(knownOntos);
+		ret.addAll(set);
+//		ret.addAll(knownOntos);
 		return ret;
 	}
 
