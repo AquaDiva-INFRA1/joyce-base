@@ -26,6 +26,12 @@ public class JoyceSymbolConstants {
 	 */
 	public final static String ONTOLOGIES_FOR_DOWNLOAD = "joyce.ontologies.download.acronyms";
 	/**
+	 * This symbol may be set to a comma separated list of BioPortal ontology
+	 * acronyms for which ontology mappings will then be downloaded during system setup. If the field
+	 * is left blank, the mappings for the ontologies in the ontology directory are downloaded.
+	 */
+	public final static String MAPPINGS_FOR_DOWNLOAD = "joyce.mappings.download.acronyms";
+	/**
 	 * The location of a file errors are written occurring during ontology
 	 * download.
 	 */
@@ -50,7 +56,14 @@ public class JoyceSymbolConstants {
 	 * ontologies. This step is not required if the download happened already
 	 * and only database population should be done again.
 	 */
-	public static final String SETUP_DOWNLOAD_BIOPORTAL = "joyce.setup.download.bioportal";
+	public static final String SETUP_DOWNLOAD_BIOPORTAL_ONTOLOGIES = "joyce.setup.download.bioportal.ontologies";
+
+	/**
+	 * Whether or not the tool setup algorithm - populating the database,
+	 * adapting the dictionary etc - should freshly download the BioPortal
+	 * mappings. This step is not required if the download happened already.
+	 */
+	public static final String SETUP_DOWNLOAD_BIOPORTAL_MAPPINGS = "joyce.setup.download.bioportal.mappings";
 	/**
 	 * Whether or not to convert non-OWL ontologies to the OWL format during
 	 * setup, after the ontologies have been downloaded.
