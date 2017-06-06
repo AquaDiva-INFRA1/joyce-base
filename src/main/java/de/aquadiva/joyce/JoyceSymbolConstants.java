@@ -4,6 +4,11 @@ import javax.persistence.EntityManager;
 
 public class JoyceSymbolConstants {
 	/**
+	 * This is a kind of 'meta configuration property' - if set, it defines the
+	 * location of a property file that specifies the other properties.
+	 */
+	public final static String JOYCE_CONFIG_FILE = "joyce.configuration.file";
+	/**
 	 * The directory to where the BioPortal ontologies are downloaded.
 	 */
 	public final static String ONTOLOGY_DOWNLOAD_DIR = "joyce.ontologies.downloaddir";
@@ -27,8 +32,9 @@ public class JoyceSymbolConstants {
 	public final static String ONTOLOGIES_FOR_DOWNLOAD = "joyce.ontologies.download.acronyms";
 	/**
 	 * This symbol may be set to a comma separated list of BioPortal ontology
-	 * acronyms for which ontology mappings will then be downloaded during system setup. If the field
-	 * is left blank, the mappings for the ontologies in the ontology directory are downloaded.
+	 * acronyms for which ontology mappings will then be downloaded during
+	 * system setup. If the field is left blank, the mappings for the ontologies
+	 * in the ontology directory are downloaded.
 	 */
 	public final static String MAPPINGS_FOR_DOWNLOAD = "joyce.mappings.download.acronyms";
 	/**

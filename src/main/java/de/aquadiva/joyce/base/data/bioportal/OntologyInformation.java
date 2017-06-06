@@ -1,9 +1,8 @@
 package de.aquadiva.joyce.base.data.bioportal;
 
-import java.net.URL;
-
 import com.google.gson.annotations.SerializedName;
 
+@Deprecated
 public class OntologyInformation {
 	public String acronym;
 	public boolean summaryOnly;

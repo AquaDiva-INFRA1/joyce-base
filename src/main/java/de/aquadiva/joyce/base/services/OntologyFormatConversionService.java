@@ -127,21 +127,6 @@ public class OntologyFormatConversionService implements IOntologyFormatConversio
 			}
 		}
 
-		// log.info("Copying {} OWL ontologies from {} to {}.", new Object[]
-		// {owlFiles == null ? 0 : owlFiles.length, ontoDir, owlDir});
-		// int copied = 0;
-		// for (int i = 0; null != owlFiles && i < owlFiles.length; i++) {
-		// File sourceFile = owlFiles[i];
-		// File destFile = new File(owlDir.getAbsolutePath() + File.separator +
-		// sourceFile.getName());
-		// try {
-		// FileUtils.copyFile(sourceFile, destFile);
-		// ++copied;
-		// } catch (IOException e) {
-		// e.printStackTrace();
-		// }
-		// }
-		// log.info("{} OWL ontologies sucessfully copied.", copied);
 		log.info("{} ontologies were neither in OWL nor in in OBO format and are currently not supported.",
 				(allFiles.length - (owlFiles.length + oboFiles.length)));
 	}

@@ -23,6 +23,7 @@ import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.slf4j.Logger;
 
 import de.aquadiva.joyce.base.data.IOntology;
+import de.julielab.bioportal.util.BioPortalToolUtils;
 
 /**
  * A service for parsing OWL ontologies. This has been made a service to have a
@@ -84,7 +85,6 @@ public class OWLParsingService implements IOWLParsingService {
 		OWLOntology owlOntology;
 		owlOntology = ontology.getFile() != null && ontology.getFile().exists() ? parse(ontology.getFile())
 				: parse(ontology.getOntologyData());
-		// renameTEMPOntology(owlOntology, ontology.getId());
 		ontology.setOwlOntology(owlOntology);
 		// Remove the ontology again because we get problems with duplicate
 		// names; hopefully this has not unwanted side effects;TODO perhaps we
@@ -98,38 +98,13 @@ public class OWLParsingService implements IOWLParsingService {
 		return owlOntology;
 	}
 
-	/**
-	 * If the OWLOntology ID equals 'http://purl.obolibrary.org/obo/TEMP' -
-	 * which happens after OBO-conversions - the ontology is renamed to
-	 * <tt>http://purl.obolibrary.org/obo/&lt;newname&gt;</tt> It is important
-	 * to do this because otherwise multiple ontologies (i.e. all the OBO
-	 * converted ones) will have the same ID which the OWL ontology manager
-	 * won't accept.
-	 * 
-	 * @param owlOntology
-	 * @param newname
-	 */
-	// private void renameTEMPOntology(OWLOntology owlOntology, String newname)
-	// {
-	// // Most OBO ontologies do not set their ontology name; if so, we just
-	// // set some IRI that should be unique due to the use of the ontology's
-	// // acronym
-	// if (owlOntology.getOntologyID().getOntologyIRI() != null &&
-	// owlOntology.getOntologyID().getOntologyIRI()
-	// .equals(IRI.create("http://purl.obolibrary.org/obo/TEMP"))) {
-	// SetOntologyID setOntologyID = new SetOntologyID(owlOntology,
-	// IRI.create("http://purl.obolibrary.org/obo/" + newname));
-	// owlOntologyManager.applyChange(setOntologyID);
-	// }
-	// }
-
 	@Override
 	public void convertOntology(File obofile, File owlfile) throws IOException {
 		OWLOntology owlOntology = parse(obofile);
 		File dir = owlfile.getParentFile();
 		if (!dir.exists())
 			dir.mkdirs();
-		try (OutputStream os = new GZIPOutputStream(new FileOutputStream(owlfile))) {
+		try (OutputStream os = BioPortalToolUtils.getOutputStreamToFile(owlfile)) {
 			synchronized (owlOntologyManager) {
 				owlOntologyManager.saveOntology(owlOntology, new RDFXMLOntologyFormat(), os);
 			}
