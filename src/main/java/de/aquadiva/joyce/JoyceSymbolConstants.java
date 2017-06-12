@@ -11,12 +11,16 @@ public class JoyceSymbolConstants {
 	/**
 	 * The directory to where the BioPortal ontologies are downloaded.
 	 */
-	public final static String ONTOLOGY_DOWNLOAD_DIR = "joyce.ontologies.downloaddir";
+	public final static String ONTOLOGIES_DOWNLOAD_DIR = "joyce.ontologies.download.dir";
+	/**
+	 * The directory to where the BioPortal mappings are downloaded.
+	 */
+	public final static String MAPPINGS_DOWNLOAD_DIR = "joyce.mappings.download.dir";
 	/**
 	 * This is the directory where BioPortal ontology meta information is
 	 * downloaded to.
 	 */
-	public final static String ONTOLOGY_INFO_DOWNLOAD_DIR = "joyce.ontologies.info.downloaddir";
+	public final static String ONTOLOGY_INFO_DOWNLOAD_DIR = "joyce.ontologies.info.download.dir";
 	/**
 	 * The directory to where all ontologies available in OWL (either because
 	 * OWL was the original format or the original format could be converted to
@@ -42,6 +46,11 @@ public class JoyceSymbolConstants {
 	 * download.
 	 */
 	public static final String ONTOLOGY_DOWNLOAD_ERROR_FILE = "joyce.ontologies.download.errors.file";
+	/**
+	 * The directory where the class names (preferred names, synonyms and more)
+	 * of the downloaded ontologies are stored.
+	 */
+	public static final String ONTOLOGY_CLASSES_NAMES_DIR = "joyce.ontologies.classes.names.dir";
 	/**
 	 * The BioPortal API key. Required for the download of BioPortal ontologies.
 	 * Can be obtained on the BioPortal homepage.

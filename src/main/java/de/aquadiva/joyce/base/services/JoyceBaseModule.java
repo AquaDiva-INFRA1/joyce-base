@@ -70,6 +70,7 @@ public class JoyceBaseModule {
 		binder.bind(IOntologyDBService.class, OntologyDBService.class);
 		binder.bind(IMetaConceptService.class, MetaConceptService.class);
 		binder.bind(IOntologyRepositoryStatsPrinterService.class, OntologyRepositoryStatsPrinterService.class);
+		binder.bind(IOntologyNameExtractionService.class, OntologyNameExtractionService.class);
 	}
 
 	public static EntityManagerFactory buildEntityManagerFactory(

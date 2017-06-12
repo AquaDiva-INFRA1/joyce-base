@@ -15,7 +15,7 @@ public interface IOntologyFormatConversionService {
 
 	/**
 	 * Calls {@link #convertToOwl(File, File)} by using the values of the configuration symbols
-	 * {@link JoyceSymbolConstants#ONTOLOGY_DOWNLOAD_DIR} and {@link JoyceSymbolConstants#OWL_DIR} as places to look for
+	 * {@link JoyceSymbolConstants#ONTOLOGIES_DOWNLOAD_DIR} and {@link JoyceSymbolConstants#OWL_DIR} as places to look for
 	 * ontologies to convert and the place to store the results.
 	 */
 	void convertFromDownloadDirToOwlDir();

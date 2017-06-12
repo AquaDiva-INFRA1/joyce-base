@@ -32,7 +32,7 @@ public class OntologyRepositoryStatsPrinterService implements IOntologyRepositor
 	private String ontologyDownloadDir;
 
 	public OntologyRepositoryStatsPrinterService(Logger log, IOntologyDBService dbService,
-			@Symbol(JoyceSymbolConstants.ONTOLOGY_DOWNLOAD_DIR) String ontologyDownloadDir) {
+			@Symbol(JoyceSymbolConstants.ONTOLOGIES_DOWNLOAD_DIR) String ontologyDownloadDir) {
 		this.log = log;
 		this.dbService = dbService;
 		this.ontologyDownloadDir = ontologyDownloadDir;

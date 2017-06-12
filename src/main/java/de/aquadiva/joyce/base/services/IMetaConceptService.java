@@ -9,6 +9,13 @@ import com.google.common.collect.Multiset;
 import de.aquadiva.joyce.base.data.Ontology;
 
 public interface IMetaConceptService {
+
+	/**
+	 * Reads the paths to ontologies and mappings as specified in the
+	 * configuration and builds the mapping file.
+	 */
+	void createMetaConceptMap();
+
 	/**
 	 * Returns the IRIs of asserted classes in ontology <tt>o</tt> with respect
 	 * to the <tt>metaConceptMapping</tt>. The result are the class IRIs of

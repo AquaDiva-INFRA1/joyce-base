@@ -30,7 +30,7 @@ import de.aquadiva.joyce.JoyceSymbolConstants;
 import de.aquadiva.joyce.base.data.Ontology;
 
 /**
- * This service reads - not creates - the ontology class IRI to meta class ID
+ * This service reads and creates the ontology class IRI to meta class ID
  * mapping used to assemble equivalent classes into one single representant.
  * 
  * @author faessler
@@ -242,5 +242,10 @@ public class MetaConceptService implements IMetaConceptService {
 			}
 		}
 		return iriClasses;
+	}
+
+	@Override
+	public void createMetaConceptMap() {
+		
 	}
 }

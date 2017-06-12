@@ -18,7 +18,7 @@ public class OntologyFormatConversionService implements IOntologyFormatConversio
 	private IOWLParsingService parsingService;
 
 	public OntologyFormatConversionService(Logger log, IOWLParsingService parsingService,
-			@Symbol(JoyceSymbolConstants.ONTOLOGY_DOWNLOAD_DIR) String downloadDir,
+			@Symbol(JoyceSymbolConstants.ONTOLOGIES_DOWNLOAD_DIR) String downloadDir,
 			@Symbol(JoyceSymbolConstants.OWL_DIR) String owlDir) {
 		this.log = log;
 		this.parsingService = parsingService;
