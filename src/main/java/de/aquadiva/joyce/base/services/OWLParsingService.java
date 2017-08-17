@@ -24,6 +24,7 @@ import org.slf4j.Logger;
 
 import de.aquadiva.joyce.base.data.IOntology;
 import de.julielab.bioportal.util.BioPortalToolUtils;
+import de.julielab.java.utilities.FileUtilities;
 
 /**
  * A service for parsing OWL ontologies. This has been made a service to have a
@@ -104,7 +105,7 @@ public class OWLParsingService implements IOWLParsingService {
 		File dir = owlfile.getParentFile();
 		if (!dir.exists())
 			dir.mkdirs();
-		try (OutputStream os = BioPortalToolUtils.getOutputStreamToFile(owlfile)) {
+		try (OutputStream os = FileUtilities.getOutputStreamToFile(owlfile)) {
 			synchronized (owlOntologyManager) {
 				owlOntologyManager.saveOntology(owlOntology, new RDFXMLOntologyFormat(), os);
 			}

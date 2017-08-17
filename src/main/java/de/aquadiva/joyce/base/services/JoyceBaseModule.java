@@ -32,6 +32,7 @@ import org.slf4j.Logger;
 
 import de.aquadiva.joyce.JoyceSymbolConstants;
 import de.julielab.bioportal.util.BioPortalToolUtils;
+import de.julielab.java.utilities.FileUtilities;
 
 public class JoyceBaseModule {
 
@@ -44,7 +45,7 @@ public class JoyceBaseModule {
 			if (configurationFile.exists()) {
 				logger.info("Found configuration file {}", configurationFile.getAbsolutePath());
 				Properties properties = new Properties();
-				properties.load(BioPortalToolUtils.getInputStreamFromFile(configurationFile));
+				properties.load(FileUtilities.getInputStreamFromFile(configurationFile));
 				Map<String, String> map = new HashMap<>();
 				for (final String name : properties.stringPropertyNames())
 					map.put(name, properties.getProperty(name));
