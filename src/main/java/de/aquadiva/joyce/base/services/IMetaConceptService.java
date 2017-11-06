@@ -1,20 +1,26 @@
 package de.aquadiva.joyce.base.services;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.neo4j.shell.util.json.JSONException;
+
 import com.google.common.collect.Multiset;
 
 import de.aquadiva.joyce.base.data.Ontology;
+import de.aquadiva.joyce.base.util.MetaConceptMapCreationException;
 
 public interface IMetaConceptService {
 
 	/**
 	 * Reads the paths to ontologies and mappings as specified in the
 	 * configuration and builds the mapping file.
+	 * @throws IOException 
+	 * @throws JSONException 
 	 */
-	void createMetaConceptMap();
+	void createMetaConceptMap() throws MetaConceptMapCreationException;
 
 	/**
 	 * Returns the IRIs of asserted classes in ontology <tt>o</tt> with respect
