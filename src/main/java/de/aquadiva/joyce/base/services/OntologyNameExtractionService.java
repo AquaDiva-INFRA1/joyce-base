@@ -1,8 +1,12 @@
 package de.aquadiva.joyce.base.services;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.concurrent.ExecutorService;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.slf4j.Logger;
@@ -43,9 +47,13 @@ public class OntologyNameExtractionService implements IOntologyNameExtractionSer
 		String jarfile = files[0];
 		String[] cmdarray = new String[] { "java", "-jar", "tools/" + jarfile, "-eci", ontosDir.getAbsolutePath(),
 				ontosInfoDir.getAbsolutePath(), classNamesDir.getAbsolutePath() };
-		log.info("Starting external process for ontology class name extraction with the command {}", cmdarray);
+		log.info("Starting external process for ontology class name extraction with the command {}", Stream.of(cmdarray).collect(Collectors.joining(" ")));
 		try {
 			Process process = Runtime.getRuntime().exec(cmdarray);
+			BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			String line;
+			while((line = br.readLine()) != null)
+				log.debug(line);
 			process.waitFor();
 			log.info("External process finished.");
 		} catch (IOException e) {
