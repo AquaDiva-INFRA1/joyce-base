@@ -101,7 +101,11 @@ public class OntologyDBService implements IOntologyDBService {
 			String acronym = owlFile.getName().split("\\.", 2)[0];
 			try {
 				log.debug("Checking if ontology {} is already in the database", acronym);
-				em.getReference(Ontology.class, acronym);
+				Ontology o = em.getReference(Ontology.class, acronym);
+				// This will throw the "EntityNotFoundException" if there is no
+				// ontology with this acronym in the database.
+				o.toString();
+				createdOntologies.add(o);
 				log.debug("Ontology {} already present in database, not importing again.", acronym);
 			} catch (EntityNotFoundException e1) {
 				log.debug("Ontology {} was not found in the database and is now imported.", acronym);
@@ -353,7 +357,14 @@ public class OntologyDBService implements IOntologyDBService {
 	public <T extends Ontology> void storeOntologies(Collection<T> ontologies, boolean commit) {
 		beginTransaction();
 		for (Ontology om : ontologies)
-			em.persist(om);
+			try {
+				Ontology o = em.getReference(Ontology.class, om.getId());
+				// This will throw the "EntityNotFoundException" if there is no
+				// ontology with this acronym in the database.
+				o.toString();
+			} catch (EntityNotFoundException e1) {
+				em.persist(om);
+			}
 		if (commit)
 			commit();
 	}

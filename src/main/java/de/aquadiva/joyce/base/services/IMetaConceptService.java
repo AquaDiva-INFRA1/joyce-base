@@ -14,13 +14,6 @@ import de.aquadiva.joyce.base.util.MetaConceptMapCreationException;
 
 public interface IMetaConceptService {
 
-	/**
-	 * Reads the paths to ontologies and mappings as specified in the
-	 * configuration and builds the mapping file.
-	 * @throws IOException 
-	 * @throws JSONException 
-	 */
-	void createMetaConceptMap() throws MetaConceptMapCreationException;
 
 	/**
 	 * Returns the IRIs of asserted classes in ontology <tt>o</tt> with respect
@@ -57,4 +50,13 @@ public interface IMetaConceptService {
 	Multiset<String> getOntologiesForMixedClasses(Multiset<String> mixedClasses);
 
 	Set<String> convertMixedClassesToIriClasses(Multiset<String> mixedClasses);
+
+	/**
+	 * Loads the meta class to class IRI mapping file that needs to be generated
+	 * by {@link #createMetaConceptMap()} before. This creates in in-memory map
+	 * of the the meta-IRI mapping and also a IRI-meta mapping.
+	 * 
+	 * @throws IOException
+	 */
+	void loadMetaClassIriMaps() throws IOException;
 }

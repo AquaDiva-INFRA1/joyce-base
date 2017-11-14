@@ -72,6 +72,7 @@ public class JoyceBaseModule {
 		binder.bind(IMetaConceptService.class, MetaConceptService.class);
 		binder.bind(IOntologyRepositoryStatsPrinterService.class, OntologyRepositoryStatsPrinterService.class);
 		binder.bind(IOntologyNameExtractionService.class, OntologyNameExtractionService.class);
+		binder.bind(INeo4jService.class, Neo4jService.class);
 	}
 
 	public static EntityManagerFactory buildEntityManagerFactory(

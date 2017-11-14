@@ -142,6 +142,8 @@ public class JoyceSymbolConstants {
 	 * 'bioportal.gazetter.properties'.
 	 */
 	public static final String DICT_FILTERED_PATH = "joyce.ontologies.dictionary.filtered.path";
+	
+	public static final String NEO4J_PATH = "joyce.ontologies.neo4j.path";
 	/**
 	 * JPA database connection property. Specifies the database URL.
 	 */

@@ -1,33 +1,22 @@
 package de.aquadiva.joyce.base.services;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
-
-import javax.xml.bind.DatatypeConverter;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.LineIterator;
 import org.apache.tapestry5.ioc.annotations.Symbol;
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.factory.GraphDatabaseFactory;
-import org.neo4j.shell.util.json.JSONException;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.slf4j.Logger;
@@ -36,23 +25,9 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multiset;
-import com.google.gson.Gson;
 
 import de.aquadiva.joyce.JoyceSymbolConstants;
 import de.aquadiva.joyce.base.data.Ontology;
-import de.aquadiva.joyce.base.util.MetaConceptMapCreationException;
-import de.aquadiva.neo4j.plugins.AquaDivaExport;
-import de.julielab.bioportal.ontologies.data.OntologyClass;
-import de.julielab.bioportal.ontologies.data.OntologyClassSynonyms;
-import de.julielab.bioportal.util.BioPortalToolUtils;
-import de.julielab.java.utilities.FileUtilities;
-import de.julielab.neo4j.plugins.ConceptManager;
-import de.julielab.neo4j.plugins.constants.semedico.FacetConstants;
-import de.julielab.neo4j.plugins.datarepresentation.ConceptCoordinates;
-import de.julielab.neo4j.plugins.datarepresentation.ImportConcept;
-import de.julielab.neo4j.plugins.datarepresentation.ImportFacet;
-import de.julielab.neo4j.plugins.datarepresentation.ImportFacetGroup;
-import de.julielab.neo4j.plugins.datarepresentation.JsonSerializer;
 
 /**
  * This service reads and creates the ontology class IRI to meta class ID
@@ -76,28 +51,31 @@ public class MetaConceptService implements IMetaConceptService {
 	 * </p>
 	 */
 	private Multimap<String, String> mixedClassToModuleMapping;
+	/**
+	 * <p>
+	 * MetaClass -> IRIClass
+	 * </p>
+	 */
 	private Multimap<String, String> metaClass2IriClassMapping;
 	private File mixedClassOntologyMappingFile;
-	private File ontologyNamesDirectory;
-	private File mappingsDir;
+	private File metaConceptMappingFile;
 
 	public MetaConceptService(Logger log,
 			@Symbol(JoyceSymbolConstants.META_CLASS_TO_IRI_CLASS_MAPPING) File metaConceptMappingFile,
-			@Symbol(JoyceSymbolConstants.MIXEDCLASS_ONTOLOGY_MAPPING) File mixedClassOntologyMappingFile,
-			@Symbol(JoyceSymbolConstants.ONTOLOGY_CLASSES_NAMES_DIR) File ontologyNamesDirectory,
-			@Symbol(JoyceSymbolConstants.MAPPINGS_DOWNLOAD_DIR) File mappingsDir) throws IOException {
+			@Symbol(JoyceSymbolConstants.MIXEDCLASS_ONTOLOGY_MAPPING) File mixedClassOntologyMappingFile) throws IOException {
 		this.log = log;
+		this.metaConceptMappingFile = metaConceptMappingFile;
 		this.mixedClassOntologyMappingFile = mixedClassOntologyMappingFile;
-		this.ontologyNamesDirectory = ontologyNamesDirectory;
-		this.mappingsDir = mappingsDir;
-		// metaClass2IriClassMapping =
-		// readMetaClass2IriClassMapping(metaConceptMappingFile);
-		// iriClass2MetaClassMapping =
-		// readInversedMetaClass2IriClassMapping(metaConceptMappingFile);
-		// if (mixedClassOntologyMappingFile.exists())
-		// mixedClassToModuleMapping =
-		// readMixedClassToModuleMapping(mixedClassOntologyMappingFile);
+		// This file is written during setup. When actually selecting ontology
+		// modules, it should exist and will be loaded on service startup.
+		if (mixedClassOntologyMappingFile.exists())
+			mixedClassToModuleMapping = readMixedClassToModuleMapping(mixedClassOntologyMappingFile);
+	}
 
+	@Override
+	public void loadMetaClassIriMaps() throws IOException {
+		metaClass2IriClassMapping = readMetaClass2IriClassMapping(metaConceptMappingFile);
+		iriClass2MetaClassMapping = readInversedMetaClass2IriClassMapping(metaConceptMappingFile);
 	}
 
 	@Override
@@ -277,132 +255,4 @@ public class MetaConceptService implements IMetaConceptService {
 		return iriClasses;
 	}
 
-	@Override
-	public void createMetaConceptMap() throws MetaConceptMapCreationException {
-		GraphDatabaseFactory factory = new GraphDatabaseFactory();
-		GraphDatabaseService graphDb = factory.newEmbeddedDatabase(new File("tmp/graphdb"));
-		Gson gson = new Gson();
-		try {
-			ConceptManager cm = new ConceptManager();
-			File[] ontologyNameFiles = ontologyNamesDirectory
-					.listFiles((f, n) -> n.endsWith(".jsonlst") || n.endsWith(".jsonlst.gz"));
-			// INSERT ONTOLOGY CLASSES INTO GRAPH DB
-			log.info("Inserting {} ontology class files into an embedded Neo4j database.", ontologyNameFiles.length);
-			for (int i = 0; i < ontologyNameFiles.length; i++) {
-				File f = ontologyNameFiles[i];
-				String acronym = BioPortalToolUtils.getAcronymFromFileName(f);
-				try {
-					log.trace("Inserting the classes of file {} into the Neo4j database", f);
-					// The format of the name files is one class per line as a
-					// JSON
-					// object on its own.
-					// We will now build a JSON array out of all the classes of
-					// the
-					// file
-					BufferedReader br = FileUtilities.getReaderFromFile(f);
-					List<ImportConcept> concepts = br.lines().map(l -> gson.fromJson(l, OntologyClass.class)).map(c -> new ImportConcept(c.prefLabel,
-							c.synonym.synonyms, c.definition,
-							new ConceptCoordinates(c.id, acronym, true), c.parents != null && c.parents.parents != null ? c.parents.parents.stream()
-									.map(p -> new ConceptCoordinates(p, acronym, true)).collect(Collectors.toList()) : Collections.emptyList()))
-							.collect(Collectors.toList());
-					String termsJson = JsonSerializer.toJson(concepts);
-					// Facet groups are unique by name in the database (the
-					// ConceptManager makes sure of it). Thus, we will have a
-					// single
-					// facet group with the following name after the import of
-					// all
-					// ontology classes.
-					ImportFacetGroup fg = new ImportFacetGroup("BioPortal Ontologies");
-					ImportFacet facet = new ImportFacet(BioPortalToolUtils.getAcronymFromFileName(f), "go",
-							FacetConstants.SRC_TYPE_HIERARCHICAL, Arrays.asList("none"), Arrays.asList("none"), 0,
-							Arrays.asList("none"), fg);
-
-					String facetJson = JsonSerializer.toJson(facet);
-					cm.insertFacetTerms(graphDb, facetJson, termsJson, null);
-				} catch (IOException e) {
-					throw new MetaConceptMapCreationException(
-							"The ontology name file " + f.getAbsolutePath() + " could not be read", e);
-				} catch (JSONException e) {
-					throw new MetaConceptMapCreationException(
-							"The JSON format specifying the ontology class names or - but less probable - the facet JSON format does not fit the requirements of the employed version of the julielab-neo4j-plugin-concepts dependency. There might be a compatibility issue between the julielab-bioportal-tools and the plugin-concepts libraries.",
-							e);
-				}
-			}
-
-			// INSERT CLASS MAPPINGS INTO GRAPH DB
-			// File[] mappingFiles = mappingsDir.listFiles((f, n) ->
-			// n.endsWith(".json") || n.endsWith(".json.gz"));
-			// Gson gson = new Gson();
-			// Type mappingListType = new
-			// TypeToken<List<OntologyClassMapping>>() {//
-			// }.getType();
-			// log.info("Inserting {} ontology class mapping files into an
-			// embedded Neo4j database.", mappingFiles.length);
-			// for (int i = 0; i < mappingFiles.length; i++) {
-			// File f = mappingFiles[i];
-			// log.trace("Inserting the mapings of file {} into the Neo4j
-			// database", f);
-			// try (Reader r = FileUtilities.getReaderFromFile(f)) {
-			// List<OntologyClassMapping> mappings = gson.fromJson(r,
-			// mappingListType);
-			// List<ImportMapping> toInsert = new ArrayList<>(mappings.size());
-			// for (OntologyClassMapping mapping : mappings) {
-			// // for the moment, we only work with LOOM (that does
-			// // not
-			// // mean that this is the best strategy, we simply
-			// // haven't investigated other possibilities)
-			// if (!mapping.source.equalsIgnoreCase("LOOM"))
-			// continue;
-			// String from = mapping.classes.get(0).id;
-			// String to = mapping.classes.get(1).id;
-			// ImportMapping importMapping = new ImportMapping(from, to,
-			// mapping.source);
-			// toInsert.add(importMapping);
-			// }
-			// cm.insertMappings(graphDb, JsonSerializer.toJson(toInsert));
-			// } catch (IOException e) {
-			// throw new MetaConceptMapCreationException(
-			// "The ontology class mapping JSON file " + f.getAbsolutePath() + "
-			// could not be read.", e);
-			// } catch (JSONException e) {
-			// throw new MetaConceptMapCreationException(
-			// "The JSON format that was sent to the insertMappings method of
-			// the ConceptManager did not match the expected format. There might
-			// be a compatibility issue between the julielab-bioportal-tools and
-			// the plugin-concepts libraries.");
-			// }
-			// }
-
-			// CREATE THE META CLASSES
-			try {
-				cm.buildAggregatesByMappigs(graphDb, "[LOOM]", "MAPPING_AGGREGATE", null);
-			} catch (JSONException e) {
-				throw new MetaConceptMapCreationException(e);
-			}
-
-			// EXPORTING THE MAPPING FILE
-			AquaDivaExport ade = new AquaDivaExport();
-			try {
-				log.info("Retrieving mapping file data from the prepared Neo4j database.");
-				// This string is the base 64 encoding of the GZIPed mapping
-				// file
-				String metaClassMapping = ade.exportAggregateElementMapping(graphDb);
-				log.info("Writing the meta class mapping to {}", mixedClassOntologyMappingFile);
-				byte[] mappingBytes = DatatypeConverter.parseBase64Binary(metaClassMapping);
-				byte[] buffer = new byte[1024];
-				try (GZIPInputStream gzis = new GZIPInputStream(new ByteArrayInputStream(mappingBytes));
-						OutputStream os = FileUtilities.getOutputStreamToFile(mixedClassOntologyMappingFile)) {
-					int numRead = -1;
-					while ((numRead = gzis.read(buffer)) != -1) {
-						os.write(buffer, 0, numRead);
-					}
-				}
-			} catch (Exception e) {
-				throw new MetaConceptMapCreationException("Creating the mapping file or writing it went wrong.", e);
-			}
-			log.info("Done creating the meta class mapping file.");
-		} finally {
-			graphDb.shutdown();
-		}
-	}
 }
