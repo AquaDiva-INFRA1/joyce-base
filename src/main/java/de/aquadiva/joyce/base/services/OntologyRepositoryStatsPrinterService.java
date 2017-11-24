@@ -40,31 +40,19 @@ public class OntologyRepositoryStatsPrinterService implements IOntologyRepositor
 
 	@Override
 	public void printOntologyRepositoryStats(File file) {
-		File ontoDir = new File(ontologyDownloadDir + File.separator + OntologyDownloadService.ONTO_DIR);
-		File[] oboFiles = ontoDir.listFiles(new FilenameFilter() {
+		File ontoDir = new File(ontologyDownloadDir);
+		File[] oboFiles = ontoDir.listFiles((File dir, String name) -> 
+				 name.toLowerCase().endsWith(".obo") || name.toLowerCase().endsWith(".obo.gz"));
+			
 
-			@Override
-			public boolean accept(File dir, String name) {
-				return name.toLowerCase().endsWith(".obo") || name.toLowerCase().endsWith(".obo.gz");
-			}
-
-		});
 		oboFiles = oboFiles == null ? new File[0] : oboFiles;
-		File[] umlsFiles = ontoDir.listFiles(new FilenameFilter() {
+		File[] umlsFiles = ontoDir.listFiles((File dir, String name) -> 
+				 name.toLowerCase().endsWith(".umls") || name.toLowerCase().endsWith(".umls.gz"));
+			
 
-			@Override
-			public boolean accept(File dir, String name) {
-				return name.toLowerCase().endsWith(".umls") || name.toLowerCase().endsWith(".umls.gz");
-			}
-
-		});
 		umlsFiles = umlsFiles == null ? new File[0] : umlsFiles;
-		File[] owlFiles = ontoDir.listFiles(new FilenameFilter() {
-			@Override
-			public boolean accept(File dir, String name) {
-				return name.toLowerCase().endsWith(".owl") || name.toLowerCase().endsWith(".owl.gz");
-			}
-		});
+		File[] owlFiles = ontoDir.listFiles((File dir, String name) ->
+				 name.toLowerCase().endsWith(".owl") || name.toLowerCase().endsWith(".owl.gz"));
 		owlFiles = owlFiles == null ? new File[0] : owlFiles;
 		
 		List<Ontology> fullOntos = dbService.getAllOntologies();

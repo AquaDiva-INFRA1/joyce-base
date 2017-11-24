@@ -10,6 +10,7 @@ import org.neo4j.shell.util.json.JSONException;
 import com.google.common.collect.Multiset;
 
 import de.aquadiva.joyce.base.data.Ontology;
+import de.aquadiva.joyce.base.util.JoyceException;
 import de.aquadiva.joyce.base.util.MetaConceptMapCreationException;
 
 public interface IMetaConceptService {
@@ -26,6 +27,7 @@ public interface IMetaConceptService {
 	 * @param o
 	 * @param metaConceptMapping
 	 * @return
+	 * @throws JoyceException 
 	 */
 	Set<String> getMixedClassIdsForOntology(Ontology o);
 

@@ -8,6 +8,8 @@ import java.util.Set;
 
 import org.semanticweb.owlapi.model.OWLOntology;
 
+import de.aquadiva.joyce.base.util.JoyceException;
+
 /**
  * An interface for an ontology as it is required by the ontology selection tools.
  * 

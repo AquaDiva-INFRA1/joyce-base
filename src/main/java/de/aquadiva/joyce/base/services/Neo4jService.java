@@ -63,7 +63,7 @@ public class Neo4jService implements INeo4jService {
 	public Neo4jService(Logger log, @Symbol(JoyceSymbolConstants.NEO4J_PATH) File neo4jDbDirectory,
 			@Symbol(JoyceSymbolConstants.ONTOLOGY_CLASSES_NAMES_DIR) File ontologyNamesDirectory,
 			@Symbol(JoyceSymbolConstants.MAPPINGS_DOWNLOAD_DIR) File mappingsDir,
-			@Symbol(JoyceSymbolConstants.META_CLASS_TO_IRI_CLASS_MAPPING) File metaConceptMappingFile, @Symbol(JoyceSymbolConstants.DICT_FILTERED_PATH) File dictPath) {
+			@Symbol(JoyceSymbolConstants.META_CLASS_TO_IRI_CLASS_MAPPING) File metaConceptMappingFile, @Symbol(JoyceSymbolConstants.CONCEPT_TERM_DICTIONARY) File dictPath) {
 		this.log = log;
 		this.ontologyNamesDirectory = ontologyNamesDirectory;
 		this.mappingsDir = mappingsDir;
@@ -227,7 +227,6 @@ public class Neo4jService implements INeo4jService {
 					OutputStream os = FileUtilities.getOutputStreamToFile(metaConceptMappingFile)) {
 				int numRead = -1;
 				while ((numRead = gzis.read(buffer)) != -1) {
-					System.out.println(new String(buffer));
 					os.write(buffer, 0, numRead);
 				}
 			}

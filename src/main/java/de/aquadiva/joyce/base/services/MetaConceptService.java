@@ -28,6 +28,7 @@ import com.google.common.collect.Multiset;
 
 import de.aquadiva.joyce.JoyceSymbolConstants;
 import de.aquadiva.joyce.base.data.Ontology;
+import de.aquadiva.joyce.base.util.JoyceException;
 
 /**
  * This service reads and creates the ontology class IRI to meta class ID
@@ -79,7 +80,7 @@ public class MetaConceptService implements IMetaConceptService {
 	}
 
 	@Override
-	public Set<String> getMixedClassIdsForOntology(Ontology o) {
+	public Set<String> getMixedClassIdsForOntology(Ontology o)  {
 		OWLOntology owl = o.getOwlOntology();
 		Set<String> mixedClassesInModule = new HashSet<>();
 		for (OWLClass c : owl.getClassesInSignature()) {

@@ -25,6 +25,8 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.aquadiva.joyce.base.util.JoyceException;
+
 /**
  * Internal class for representing ontologies, original as well as derived ones.
  * This class is a JPA entity and can be used made persistent in a database.
@@ -123,8 +125,6 @@ public class Ontology extends InformationCachingObject implements IOntology {
 
 	@Transient
 	public OWLOntology getOwlOntology() {
-		if (null == owlOntology)
-			log.warn("For ontology with ID {} its OWLOntology representation was requested but has never been set.", id);
 		return owlOntology;
 	}
 
