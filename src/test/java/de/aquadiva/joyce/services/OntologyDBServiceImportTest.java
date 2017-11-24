@@ -1,7 +1,5 @@
 package de.aquadiva.joyce.services;
 
-import java.io.File;
-
 import org.apache.tapestry5.ioc.Registry;
 import org.apache.tapestry5.ioc.RegistryBuilder;
 import org.junit.AfterClass;
@@ -27,6 +25,6 @@ public class OntologyDBServiceImportTest {
 	@Test
 	public void testDBImport() {
 		IOntologyDBService importService = registry.getService(IOntologyDBService.class);
-		importService.importBioPortalOntologies(new File("src/test/resources/ontology-for-db-import"), new File("src/test/resources/ontology-download/meta-json"));
+		importService.importBioPortalOntologiesFromConfigDirs();
 	}
 }

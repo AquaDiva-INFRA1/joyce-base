@@ -53,8 +53,7 @@ public class OWLParsingServiceTest {
 	@Test
 	public void testFromOntology() throws Exception {
 		IOntologyDBService dbService = registry.getService(IOntologyDBService.class);
-		dbService.importBioPortalOntologies(new File("src/test/resources/ontology-for-db-import"), new File(
-				"src/test/resources/ontology-download/meta-json"));
+		dbService.importBioPortalOntologiesFromConfigDirs();
 		 List<Ontology> ontologiesByIds = dbService.getOntologiesByIds("OBI");
 		 assertEquals(1, ontologiesByIds.size());
 		 Ontology obi = ontologiesByIds.get(0);
@@ -63,6 +62,6 @@ public class OWLParsingServiceTest {
 		 
  		 IOWLParsingService parsingService = registry.getService(IOWLParsingService.class);
 		 OWLOntology o = parsingService.parse(obi);
-		 assertEquals(2864, o.getClassesInSignature().size());
+		 assertEquals(3055, o.getClassesInSignature().size());
 	}
 }

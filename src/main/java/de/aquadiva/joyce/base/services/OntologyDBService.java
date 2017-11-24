@@ -95,6 +95,10 @@ public class OntologyDBService implements IOntologyDBService {
 				return true;
 			}
 		});
+		if (owlOntologies == null) {
+			log.info("No OWL ontologies found in directory {}", owlDir);
+			owlOntologies = new File[0];
+		}
 		for (int i = 0; i < owlOntologies.length; i++) {
 			File owlFile = owlOntologies[i];
 			log.info("Reading file {} for database import.", owlFile.getAbsolutePath());

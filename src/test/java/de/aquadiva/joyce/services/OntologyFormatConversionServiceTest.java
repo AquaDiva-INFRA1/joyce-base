@@ -50,6 +50,6 @@ public class OntologyFormatConversionServiceTest {
 
 		String[] owlFiles = owlDir.list();
 		assertNotNull(owlFiles);
-		assertEquals(4, owlFiles.length);
+		assertEquals(3, owlFiles.length);
 	}
 }
