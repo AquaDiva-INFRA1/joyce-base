@@ -2,47 +2,52 @@ package de.aquadiva.joyce;
 
 import javax.persistence.EntityManager;
 
-import org.apache.lucene.analysis.gl.GalicianAnalyzer;
-
 public class JoyceSymbolConstants {
+
+	/**
+	 * This class should not be instantiated, it is there for constants only.
+	 */
+	private JoyceSymbolConstants() {
+	}
+
 	/**
 	 * This is a kind of 'meta configuration property' - if set, it defines the
 	 * location of a property file that specifies the other properties.
 	 */
-	public final static String JOYCE_CONFIG_FILE = "joyce.configuration.file";
+	public static final String JOYCE_CONFIG_FILE = "joyce.configuration.file";
 	/**
 	 * The directory to where the BioPortal ontologies are downloaded.
 	 */
-	public final static String ONTOLOGIES_DOWNLOAD_DIR = "joyce.ontologies.download.dir";
+	public static final String ONTOLOGIES_DOWNLOAD_DIR = "joyce.ontologies.download.dir";
 	/**
 	 * The directory to where the BioPortal mappings are downloaded.
 	 */
-	public final static String MAPPINGS_DOWNLOAD_DIR = "joyce.mappings.download.dir";
+	public static final String MAPPINGS_DOWNLOAD_DIR = "joyce.mappings.download.dir";
 	/**
 	 * This is the directory where BioPortal ontology meta information is downloaded
 	 * to.
 	 */
-	public final static String ONTOLOGY_INFO_DOWNLOAD_DIR = "joyce.ontologies.info.download.dir";
+	public static final String ONTOLOGY_INFO_DOWNLOAD_DIR = "joyce.ontologies.info.download.dir";
 	/**
 	 * The directory to where all ontologies available in OWL (either because OWL
 	 * was the original format or the original format could be converted to OWL) are
 	 * stored.
 	 */
-	public final static String OWL_DIR = "joyce.ontologies.owl.dir";
+	public static final String OWL_DIR = "joyce.ontologies.owl.dir";
 
 	/**
 	 * This symbol may be set to a comma separated list of BioPortal ontology
 	 * acronyms which will then be downloaded during system setup. If the field is
 	 * left blank, all available BioPortal ontologies will be downloaded.
 	 */
-	public final static String ONTOLOGIES_FOR_DOWNLOAD = "joyce.ontologies.download.acronyms";
+	public static final String ONTOLOGIES_FOR_DOWNLOAD = "joyce.ontologies.download.acronyms";
 	/**
 	 * This symbol may be set to a comma separated list of BioPortal ontology
 	 * acronyms for which ontology mappings will then be downloaded during system
 	 * setup. If the field is left blank, the mappings for the ontologies in the
 	 * ontology directory are downloaded.
 	 */
-	public final static String MAPPINGS_FOR_DOWNLOAD = "joyce.mappings.download.acronyms";
+	public static final String MAPPINGS_FOR_DOWNLOAD = "joyce.mappings.download.acronyms";
 	/**
 	 * The location of a file errors are written occurring during ontology download.
 	 */
@@ -104,7 +109,7 @@ public class JoyceSymbolConstants {
 	 * load the configuration file. The ChunkerProviderAlt receives a UIMA resource
 	 * loading object that internally uses a file URL. Thus, it must be an URL.
 	 */
-	public final static String GAZETTEER_CONFIG = "joyce.ontologies.concepts.gazetteer.conffile";
+	public static final String GAZETTEER_CONFIG = "joyce.ontologies.concepts.gazetteer.conffile";
 	/**
 	 * The path to a file that will be created by the SetupService in case something
 	 * goes wrong. The file will then contain information about the occurred errors.
