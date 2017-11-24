@@ -6,10 +6,23 @@ import org.neo4j.shell.util.json.JSONException;
 
 import de.aquadiva.joyce.base.util.MetaConceptMapCreationException;
 
+/**
+ * This service provides access to an embedded Neo4j graph database. This
+ * database is used used in JOYCE to build the meta classes that represent a set
+ * of classes that have been mapped to each other. See the SetupService in
+ * joyce-processes to learn how exactly this service is used.
+ * 
+ * 
+ * @author faessler
+ *
+ */
 public interface INeo4jService {
 	void insertClasses() throws MetaConceptMapCreationException;
+
 	void insertMappings() throws MetaConceptMapCreationException;
+
 	void createMetaClassesInDatabase() throws MetaConceptMapCreationException;
+
 	/**
 	 * <p>
 	 * The outcoming mapping file looks like this:
@@ -20,14 +33,15 @@ public interface INeo4jService {
 	 * atid2   http://www.bootstrep.eu/ontology/GRO#TranscriptionCofactorActivity||http://purl.obolibrary.org/obo/GO_0003712
 	 * </pre>
 	 * 
-	 * and aggregates ontology classes that have been mapped to each other into
-	 * a single meta class ID. Thus, this is a "meta class to class IRIs"
-	 * mapping file.
+	 * and aggregates ontology classes that have been mapped to each other into a
+	 * single meta class ID. Thus, this is a "meta class to class IRIs" mapping
+	 * file.
 	 * </p>
 	 * 
 	 * @throws IOException
 	 * @throws JSONException
 	 */
 	void exportMetaClassToIriMappingFile() throws MetaConceptMapCreationException;
+
 	void exportLingpipeDictionary() throws MetaConceptMapCreationException;
 }
