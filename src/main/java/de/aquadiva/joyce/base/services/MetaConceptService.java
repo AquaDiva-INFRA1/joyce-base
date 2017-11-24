@@ -28,7 +28,6 @@ import com.google.common.collect.Multiset;
 
 import de.aquadiva.joyce.JoyceSymbolConstants;
 import de.aquadiva.joyce.base.data.Ontology;
-import de.aquadiva.joyce.base.util.JoyceException;
 
 /**
  * This service reads and creates the ontology class IRI to meta class ID
