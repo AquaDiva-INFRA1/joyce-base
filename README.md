@@ -2,7 +2,7 @@
 
 ## Overview
 
-For a general overview over the JOYCE project, please refer to the README.md file of the joyce repository.
+For a general overview over the JOYCE project and instructions how to install and run JOYCE, please refer to the README.md file of the joyce repository.
 
 The JOYCE Base project provides essential services to
 - download ontologies from BioPortal (`de.aquadiva.joyce.base.services.IOntologyDownloadService`)
