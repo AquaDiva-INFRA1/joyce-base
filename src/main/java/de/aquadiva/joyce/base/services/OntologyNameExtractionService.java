@@ -37,6 +37,8 @@ public class OntologyNameExtractionService implements IOntologyNameExtractionSer
 
 		File toolsDir = new File("tools");
 		String[] files = toolsDir.list((dir, name) -> name.contains("julielab-bioportal-ontology-tools"));
+		if (files == null)
+			throw new IllegalArgumentException("The JAR file of julielab-bioportal-ontology-tools could not be found. You need to start the program from within the joyce-processes/ git repository folder.");
 		if (files.length == 0)
 			throw new IllegalStateException(
 					"julielab-bioportal-ontology-tools could not be found at " + toolsDir.getAbsolutePath());
