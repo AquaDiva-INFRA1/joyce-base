@@ -47,8 +47,8 @@ public class OntologyNameExtractionService implements IOntologyNameExtractionSer
 					"julielab-bioportal-ontology-tools were found multiple times at " + toolsDir.getAbsolutePath()
 							+ " which points to a duplication issue. Delete one of the libraries.");
 		String jarfile = files[0];
-		String[] cmdarray = new String[] { "java", "-jar", "tools/" + jarfile, "-eci", ontosDir.getAbsolutePath(),
-				ontosInfoDir.getAbsolutePath(), classNamesDir.getAbsolutePath() };
+		String[] cmdarray = new String[] {"java", "-jar", "tools/" + jarfile, "-eci", ontosDir.getAbsolutePath(),
+				ontosInfoDir.getAbsolutePath(), classNamesDir.getAbsolutePath(), "false"};
 		log.info("Starting external process for ontology class name extraction with the command {}", Stream.of(cmdarray).collect(Collectors.joining(" ")));
 		try {
 			Process process = Runtime.getRuntime().exec(cmdarray);
