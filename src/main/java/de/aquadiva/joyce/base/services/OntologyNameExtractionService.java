@@ -58,9 +58,7 @@ public class OntologyNameExtractionService implements IOntologyNameExtractionSer
 				log.debug(line);
 			process.waitFor();
 			log.info("External process finished.");
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
+		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
