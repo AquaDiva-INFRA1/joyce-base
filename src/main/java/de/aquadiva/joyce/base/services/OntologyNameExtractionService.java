@@ -59,7 +59,7 @@ public class OntologyNameExtractionService implements IOntologyNameExtractionSer
 			process.waitFor();
 			log.info("External process finished.");
 		} catch (IOException | InterruptedException e) {
-			e.printStackTrace();
+			log.error("Name extraction could not be completed. Error message: {}", e.getMessage());
 		}
 	}
 
