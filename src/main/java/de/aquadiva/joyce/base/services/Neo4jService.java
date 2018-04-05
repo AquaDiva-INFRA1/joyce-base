@@ -107,7 +107,7 @@ public class Neo4jService implements INeo4jService {
 							parentCoordinates = c.parents.parents.stream()
 									.map(p -> new ConceptCoordinates(p, acronym, true)).collect(Collectors.toList());
 						return new ImportConcept(c.prefLabel, c.synonym.synonyms, c.definition,
-								new ConceptCoordinates(c.id, acronym, true), parentCoordinates);
+								new ConceptCoordinates(c.id, acronym, true), parentCoordinates, c.obsolete);
 					});
 					List<ImportConcept> concepts = conceptStream.collect(Collectors.toList());
 					String termsJson = JsonSerializer.toJson(concepts);

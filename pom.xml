@@ -90,7 +90,7 @@
 		<dependency>
 			<groupId>de.julielab</groupId>
 			<artifactId>julielab-neo4j-plugins-concepts</artifactId>
-			<version>1.7.0</version>
+			<version>1.7.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>de.aquadiva</groupId>
