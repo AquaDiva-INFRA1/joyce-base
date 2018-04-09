@@ -160,6 +160,10 @@ public class Neo4jService implements INeo4jService {
 					log.trace("Inserting the mappings of file {} into the Neo4j database", f);
 					try (Reader r = FileUtilities.getReaderFromFile(f)) {
 						List<OntologyClassMapping> mappings = gson.fromJson(r, mappingListType);
+						if (null == mappings) {
+							log.error("File {} could not be read by Gson, skipping it.", f);
+							continue;
+						}
 						List<ImportMapping> toInsert = new ArrayList<>(mappings.size());
 						for (OntologyClassMapping mapping : mappings) {
 							// for the moment, we only work with LOOM (that
