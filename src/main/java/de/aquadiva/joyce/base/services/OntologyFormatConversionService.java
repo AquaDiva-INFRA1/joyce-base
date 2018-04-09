@@ -78,20 +78,24 @@ public class OntologyFormatConversionService implements IOntologyFormatConversio
 		});
 		String[] allFiles = sourceDir.list();
 
-		log.info("Found {} ontologies in OBO format. Attempting to convert to OWL.",
-				null == oboFiles ? 0 : oboFiles.length);
-		for (int i = 0; oboFiles != null && i < oboFiles.length; i++) {
-			File obofile = oboFiles[i];
-			try {
-				String filename = obofile.getName();
-				String acronym = filename.substring(0, filename.indexOf('.'));
-				File destOwlFile = new File(owlDir.getAbsolutePath() + File.separator + acronym + ".owl.gz");
-				log.debug("Converting OBO file {} to OWL file {}.", obofile, destOwlFile);
-				parsingService.convertOntology(obofile, destOwlFile);
-			} catch (IOException e) {
-				log.error("OBO file {} could not be converted to OWL. Error message: {}", obofile, e.getMessage());
-				log.debug("Exception was: ", e);
+		if (null != oboFiles) {
+			log.info("Found {} ontologies in OBO format. Attempting to convert to OWL.",
+					 oboFiles.length);
+			for (int i = 0; i < oboFiles.length; i++) {
+				File obofile = oboFiles[i];
+				try {
+					String filename = obofile.getName();
+					String acronym = filename.substring(0, filename.indexOf('.'));
+					File destOwlFile = new File(owlDir.getAbsolutePath() + File.separator + acronym + ".owl.gz");
+					log.debug("Converting OBO file {} to OWL file {}.", obofile, destOwlFile);
+					parsingService.convertOntology(obofile, destOwlFile);
+				} catch (IOException e) {
+					log.error("OBO file {} could not be converted to OWL. Error message: {}", obofile, e.getMessage());
+					log.debug("Exception was: ", e);
+				}
 			}
+		} else {
+			oboFiles = new File[]{};
 		}
 
 		log.info("Found {} ontologies in UMLS format. Attempting to convert to OWL.",
