@@ -86,6 +86,10 @@ public class OntologyFormatConversionService implements IOntologyFormatConversio
 					String filename = obofile.getName();
 					String acronym = filename.substring(0, filename.indexOf('.'));
 					File destOwlFile = new File(owlDir.getAbsolutePath() + File.separator + acronym + ".owl.gz");
+					if (destOwlFile.exists()) {
+						log.debug("Ontology with ID {} already exists in the destination folder and will not be converted again.", acronym);
+						continue;
+					}
 					log.debug("Converting OBO file {} to OWL file {}.", obofile, destOwlFile);
 					parsingService.convertOntology(obofile, destOwlFile);
 				} catch (IOException e) {
@@ -105,6 +109,10 @@ public class OntologyFormatConversionService implements IOntologyFormatConversio
 				String filename = umlsfile.getName();
 				String acronym = filename.substring(0, filename.indexOf('.'));
 				File destOwlFile = new File(owlDir.getAbsolutePath() + File.separator + acronym + ".owl.gz");
+				if (destOwlFile.exists()) {
+					log.debug("Ontology with ID {} already exists in the destination folder and will not be converted again.", acronym);
+					continue;
+				}
 				log.debug("Converting UMLS file {} to OWL file {}.", umlsfile, destOwlFile);
 				parsingService.convertOntology(umlsfile, destOwlFile);
 			} catch (IOException e) {
