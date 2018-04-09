@@ -11,7 +11,6 @@ import java.nio.file.Paths;
 import org.apache.commons.io.FileUtils;
 import org.apache.tapestry5.ioc.Registry;
 import org.apache.tapestry5.ioc.RegistryBuilder;
-import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.apache.tapestry5.ioc.services.SymbolSource;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -22,7 +21,6 @@ import org.slf4j.LoggerFactory;
 import de.aquadiva.joyce.JoyceSymbolConstants;
 import de.aquadiva.joyce.base.services.IOntologyFormatConversionService;
 import de.aquadiva.joyce.base.services.JoyceBaseModule;
-import de.julielab.bioportal.ontologies.apps.NameExtractorApplication;
 
 public class OntologyFormatConversionServiceTest {
 	private static Registry registry;
