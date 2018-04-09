@@ -125,6 +125,10 @@ public class OntologyFormatConversionService implements IOntologyFormatConversio
 				String filename = owlfile.getName();
 				String acronym = filename.substring(0, filename.indexOf('.'));
 				File destOwlFile = new File(owlDir.getAbsolutePath() + File.separator + acronym + ".owl.gz");
+				if (destOwlFile.exists()) {
+					log.debug("Ontology with ID {} already exists in the destination folder and will not be converted again.", acronym);
+					continue;
+				}
 				log.debug("Converting OWL file {} to OWL RDF/XML file {}.", owlfile, destOwlFile);
 				parsingService.convertOntology(owlfile, destOwlFile);
 			} catch (IOException e) {
