@@ -1,4 +1,4 @@
-package de.aquadiva.joyce.services;
+package de.aquadiva.joyce.base.services;
 
 import org.apache.tapestry5.ioc.Registry;
 import org.apache.tapestry5.ioc.RegistryBuilder;

@@ -1,4 +1,4 @@
-package de.aquadiva.joyce.services;
+package de.aquadiva.joyce.base.services;
 
 import static org.junit.Assert.assertEquals;
 
