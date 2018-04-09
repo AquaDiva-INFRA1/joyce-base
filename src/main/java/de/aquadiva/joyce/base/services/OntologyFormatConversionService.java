@@ -88,7 +88,7 @@ public class OntologyFormatConversionService implements IOntologyFormatConversio
 				File destOwlFile = new File(owlDir.getAbsolutePath() + File.separator + acronym + ".owl.gz");
 				log.debug("Converting OBO file {} to OWL file {}.", obofile, destOwlFile);
 				parsingService.convertOntology(obofile, destOwlFile);
-			} catch (Exception | Error e) {
+			} catch (IOException e) {
 				log.error("OBO file {} could not be converted to OWL. Error message: {}", obofile, e.getMessage());
 				log.debug("Exception was: ", e);
 			}
@@ -104,16 +104,19 @@ public class OntologyFormatConversionService implements IOntologyFormatConversio
 				File destOwlFile = new File(owlDir.getAbsolutePath() + File.separator + acronym + ".owl.gz");
 				log.debug("Converting UMLS file {} to OWL file {}.", umlsfile, destOwlFile);
 				parsingService.convertOntology(umlsfile, destOwlFile);
-			} catch (Exception | Error e) {
+			} catch (IOException e) {
 				log.error("UMLS file {} could not be converted to OWL. Error message: {}", umlsfile, e.getMessage());
 				log.debug("Exception was: ", e);
 			}
 		}
 
+		if (null == owlFiles) {
+			return;
+		}
 		log.info(
 				"Found {} ontologies in OWL format. They are converted to the same RDF/XML OWL format as ontologies of other formats.",
-				null == owlFiles ? 0 : owlFiles.length);
-		for (int i = 0; owlFiles != null && i < owlFiles.length; i++) {
+				 owlFiles.length);
+		for (int i = 0; i < owlFiles.length; i++) {
 			File owlfile = owlFiles[i];
 			try {
 				String filename = owlfile.getName();
@@ -121,7 +124,7 @@ public class OntologyFormatConversionService implements IOntologyFormatConversio
 				File destOwlFile = new File(owlDir.getAbsolutePath() + File.separator + acronym + ".owl.gz");
 				log.debug("Converting OWL file {} to OWL RDF/XML file {}.", owlfile, destOwlFile);
 				parsingService.convertOntology(owlfile, destOwlFile);
-			} catch (Exception | Error e) {
+			} catch (IOException e) {
 				log.error("OWL file {} could not be converted to OWL RDF/XML. Error message: {}", owlfile, e.getMessage());
 				log.debug("Exception was: ", e);
 			}
