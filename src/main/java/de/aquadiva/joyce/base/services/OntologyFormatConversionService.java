@@ -92,7 +92,7 @@ public class OntologyFormatConversionService implements IOntologyFormatConversio
 					}
 					log.debug("Converting OBO file {} to OWL file {}.", obofile, destOwlFile);
 					parsingService.convertOntology(obofile, destOwlFile);
-				} catch (IOException e) {
+				} catch (Exception | Error e) { //Intentionally, can be thrown
 					log.error("OBO file {} could not be converted to OWL. Error message: {}", obofile, e.getMessage());
 					log.debug("Exception was: ", e);
 				}
@@ -115,7 +115,7 @@ public class OntologyFormatConversionService implements IOntologyFormatConversio
 				}
 				log.debug("Converting UMLS file {} to OWL file {}.", umlsfile, destOwlFile);
 				parsingService.convertOntology(umlsfile, destOwlFile);
-			} catch (IOException e) {
+			} catch (Exception | Error e) { //Intentionally, can be thrown
 				log.error("UMLS file {} could not be converted to OWL. Error message: {}", umlsfile, e.getMessage());
 				log.debug("Exception was: ", e);
 			}
@@ -139,7 +139,7 @@ public class OntologyFormatConversionService implements IOntologyFormatConversio
 				}
 				log.debug("Converting OWL file {} to OWL RDF/XML file {}.", owlfile, destOwlFile);
 				parsingService.convertOntology(owlfile, destOwlFile);
-			} catch (IOException e) {
+			} catch (Exception | Error e) { //Intentionally, can be thrown
 				log.error("OWL file {} could not be converted to OWL RDF/XML. Error message: {}", owlfile, e.getMessage());
 				log.debug("Exception was: ", e);
 			}
