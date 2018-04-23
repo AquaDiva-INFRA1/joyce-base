@@ -145,6 +145,14 @@ public class Neo4jService implements INeo4jService {
 		Gson gson = new Gson();
 		ConceptManager cm = new ConceptManager();
 		File[] mappingFiles = mappingsDir.listFiles((f, n) -> n.endsWith(".json") || n.endsWith(".json.gz"));
+		if (null == mappingFiles) {
+			if (!mappingsDir.isDirectory()) {
+				log.error("{} is not a directory.", mappingsDir.getAbsolutePath());
+			} else {
+				log.error("An I/O error occurred while listing the files of {}.", mappingsDir.getAbsolutePath());
+			}
+			mappingFiles = new File[] {};
+		}
 		Type mappingListType = new TypeToken<List<OntologyClassMapping>>() {//
 		}.getType();
 		log.info("Inserting {} ontology class mapping files into an embedded Neo4j database.", mappingFiles.length);
