@@ -78,14 +78,6 @@
 			<groupId>de.julielab</groupId>
 			<artifactId>julielab-bioportal-ontology-tools</artifactId>
 			<version>1.0.4</version>
-			<exclusions>
-				<exclusion>
-					<groupId>de.julielab</groupId>
-					<artifactId>
-						julie-neo4j-plugins-semedico-terms
-					</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>de.julielab</groupId>
