@@ -2,7 +2,6 @@ package de.aquadiva.joyce.base.services;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.io.IOException;
 
 import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.slf4j.Logger;

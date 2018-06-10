@@ -1,7 +1,6 @@
 package de.aquadiva.joyce.base.data;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 
 @Entity

@@ -3,12 +3,10 @@ package de.aquadiva.joyce.base.services;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
 
 import org.apache.commons.io.IOUtils;
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -23,7 +21,6 @@ import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.slf4j.Logger;
 
 import de.aquadiva.joyce.base.data.IOntology;
-import de.julielab.bioportal.util.BioPortalToolUtils;
 import de.julielab.java.utilities.FileUtilities;
 
 /**

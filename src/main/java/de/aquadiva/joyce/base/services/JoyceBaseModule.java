@@ -31,7 +31,6 @@ import org.apache.tapestry5.ioc.services.SymbolProvider;
 import org.slf4j.Logger;
 
 import de.aquadiva.joyce.JoyceSymbolConstants;
-import de.julielab.bioportal.util.BioPortalToolUtils;
 import de.julielab.java.utilities.FileUtilities;
 
 public class JoyceBaseModule {
